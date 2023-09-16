@@ -11,6 +11,7 @@ import human
 
 
 def nums_output(nums, p1_name, p2_name):
+    #
     symbols = [p1_name, p2_name]
     s = ''
     i = 0
