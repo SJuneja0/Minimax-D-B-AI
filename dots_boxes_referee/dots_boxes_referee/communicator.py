@@ -22,3 +22,4 @@ def read_board():
 # Purpose:to read from a file telling us if it is our turn
 def is_our_turn():
     pass
+

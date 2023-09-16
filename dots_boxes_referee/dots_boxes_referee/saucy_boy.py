@@ -1,13 +1,15 @@
 import referee
 
+import time
 
 """Functions"""
 
 
-# Input: Array of the current board-state
+
+# Input: Array of the current board-state and the time limit for the AI
 # Output: Null
 # Purpose: Decides the optimal move and publishes it to the referee, this is the main function
-def decide_move(current_board):
+def decide_move(current_board, time_limit):
     pass
 
 
@@ -22,7 +24,7 @@ def valid_move(point1, point2):
 # Input: Int of how long to run the timer
 # Output: Boolean (true when timer runs out)
 # Purpose: To tell how long a certain time has passed
-def timer(time_limit):
+def timer(time_limit): #moved to decide_move
     pass
 
 
@@ -32,14 +34,17 @@ def timer(time_limit):
 # Input: Array of the current board-state
 # Output: Two tuples of a valid move and it's value
 # Purpose: To decide the next move
-def mini_max(current_board):
+def mini_max(time_limit):
+    timer._start_time = time.perf_counter()
+    while (curr - timer._start_time <= time_limit):
+        curr = time.perf_counter
     pass
 
 
 # Input:
 # Output:
-# Purpose: To narrow down what gets searched in mini_max to make the function more time-efficient
-def alpha_beta():
+# Purpose:
+def alpha_beta(time_limit):
     pass
 
 
@@ -80,4 +85,8 @@ def h_counting_score():
 def utility_fcn():
     pass
 
+<<<<<<< Updated upstream
 # JP Added this to check for commits
+=======
+# small comment
+>>>>>>> Stashed changes
