@@ -32,13 +32,13 @@ def timer(time_limit):
 # Input: Array of the current board-state
 # Output: Two tuples of a valid move and it's value
 # Purpose: To decide the next move
-def mini_max():
+def mini_max(current_board):
     pass
 
 
 # Input:
 # Output:
-# Purpose:
+# Purpose: To narrow down what gets searched in mini_max to make the function more time-efficient
 def alpha_beta():
     pass
 
