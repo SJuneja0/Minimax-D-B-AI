@@ -7,7 +7,7 @@ import referee
 # Input: Array of the current board-state
 # Output: Null
 # Purpose: Decides the optimal move and publishes it to the referee, this is the main function
-def decide_move():
+def decide_move(current_board):
     pass
 
 
@@ -15,14 +15,14 @@ def decide_move():
 # Input: Array of the current board-state
 # Output: Boolean (true if the move suggested is valid)
 # Purpose: To check if a given move is valid
-def valid_move():
+def valid_move(point1, point2):
     pass
 
 
 # Input: Int of how long to run the timer
 # Output: Boolean (true when timer runs out)
 # Purpose: To tell how long a certain time has passed
-def timer():
+def timer(time_limit):
     pass
 
 
