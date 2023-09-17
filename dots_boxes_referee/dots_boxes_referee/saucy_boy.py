@@ -1,5 +1,6 @@
 import referee
 import communicator
+import board
 import time
 
 """Functions"""
@@ -17,9 +18,13 @@ def decide_move(current_board, time_limit):
 # Input: Array of the current board-state
 # Output: Boolean (true if the move suggested is valid)
 # Purpose: To check if a given move is valid
-def valid_move(point1, point2):
-    
-    pass
+def valid_move(rowNum, colNum, isVertical, board):
+    bd = board()
+    if(rowNum >= len(board[0]) or rowNum < 0 or colNum >= len(board[0][0]) or colNum < 0):
+        return False
+    elif(bd.isTaken(rowNum, colNum, isVertical, board)):
+        return False
+    return True
 
 
 # Input: Int of how long to run the timer
