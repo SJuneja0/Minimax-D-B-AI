@@ -1,5 +1,5 @@
 import referee
-
+import communicator
 import time
 
 """Functions"""
@@ -18,6 +18,7 @@ def decide_move(current_board, time_limit):
 # Output: Boolean (true if the move suggested is valid)
 # Purpose: To check if a given move is valid
 def valid_move(point1, point2):
+    
     pass
 
 
