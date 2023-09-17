@@ -7,6 +7,7 @@ class communicator:
     def __init__(self, name):
         self.name = name
 
+    # TODO: Check if the move being written is valid
     # Input: Two tuples representing the line to be played
     # Output: Null
     # Purpose: Writes a new move_file to send the move to the referee
@@ -38,7 +39,8 @@ class communicator:
         # print(list_of_lines)
         return list_of_lines
 
-    # TODO: check if line is valid, or IRL check if the referee always gives a valid board
+    # TODO: check if board is valid, or IRL check if the referee always gives a valid board
+    # TODO: think about if multiple of the same line are given, probably throw an error or exception in that case
     # Input:
     # Output:
     # Purpose:
