@@ -117,8 +117,9 @@ class communicator:
     # Output: Boolean (true if our turn, false if opponent's turn)
     # Purpose:to read from a file telling us if it is our turn
     def is_our_turn(self):
-        path = "./" + self.name + ".go"
-        return os.path.isfile(path)
+        turn_path = "./" + self.name + ".go"
+        move_path = "./move_file"
+        return os.path.isfile(turn_path) and os.path.isfile(move_path)
 
 
 """TEST CODE"""
