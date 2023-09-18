@@ -20,12 +20,31 @@ def decide_move(current_board, time_limit):
 # Purpose: To check if a given move is valid
 def valid_move(rowNum, colNum, isVertical, board):
     bd = board()
-    if(rowNum >= len(board[0]) or rowNum < 0 or colNum >= len(board[0][0]) or colNum < 0):
+    if rowNum >= len(board[0]) or rowNum < 0 or colNum >= len(board[0][0]) or colNum < 0:
         return False
-    elif(bd.isTaken(rowNum, colNum, isVertical, board)):
+    elif bd.isTaken(rowNum, colNum, isVertical, board):
         return False
     return True
 
+
+# Input: Board
+# Input: Name to write to the spot
+# Output: Array of possible valid board states
+# Purpose: Given a board state, this finds all children states (next possible moves)
+def generate_possible_moves(curr_board, name):
+    valid_child_boards = []
+    for i in len(board):
+        direction = curr_board[i]
+        for j in len(direction):
+            row = direction[j]
+            for k in len(row):
+                line = row[k]
+                if line == "":
+                    new_valid_board = curr_board.copy()
+                    new_valid_board[i][j][k] = name
+                    valid_child_boards.append(new_valid_board)  # may need to be new_valid_board.copy
+    # generate all possible horizontal lines and save them as new boards
+    return valid_child_boards
 
 # Input: Int of how long to run the timer
 # Output: Boolean (true when timer runs out)
