@@ -66,6 +66,7 @@ class heuristic:
         value = 0
         count = 0
 
+        #the board is empty wtf
         row_num = board[1]#[-1][0]
         column_num = board[0][-1][1]
         line = [[[]]]
@@ -102,54 +103,15 @@ class heuristic:
     # Output:
     # Purpose:
     def h_maintain_connectivity(self, rowNum, colNum, isVertical):
-        board_read = communicator.communicator.read_board()
-        board_class = board.board
+        coms = communicator.communicator("GG")
+        board_read = coms.read_board()
+        board_class = board.board()
+        print(board_read)
         neighbors = board_class.getNeighbors(rowNum, colNum, isVertical, board_read)
         result = []
-        for lines in line:
-                try:
-                    if(isVertical):
-                        if (lines == board[1][rowNum][colNum - 1]): #top 
-                            if (board_class.isTaken(rowNum, colNum - 1, isVertical, board) == False):
-                                result.append(lines)
-                        if (lines == board[1][rowNum][colNum + 1]):
-                            if (board_class.isTaken(rowNum, colNum + 1, isVertical, board) == False):
-                                result.append(lines)
-                        if (lines == board[0][rowNum][colNum - 1]):
-                            if (board_class.isTaken(rowNum, colNum - 1, 0, board) == False):
-                                result.append(lines)
-                        if (lines == board[0][rowNum][colNum]):
-                            if (board_class.isTaken(rowNum, colNum, 0, board) == False):
-                                result.append(lines)
-                        if (lines == board[0][rowNum + 1][colNum - 1]):
-                            if (board_class.isTaken(rowNum + 1, colNum - 1, 0, board) == False):
-                                result.append(lines)
-                        if (lines == board[0][rowNum + 1][colNum]):
-                            if (board_class.isTaken(rowNum + 1, colNum, 0, board) == False):
-                                result.append(lines)
-                    else:
-                        if (lines == board[0][rowNum][colNum - 1]):
-                            if (board_class.isTaken(rowNum, colNum - 1, 0, board) == False):
-                                result.append(lines)
-                        if (lines == board[0][rowNum -1 ][colNum + 1]):
-                            if (board_class.isTaken(rowNum - 1, colNum + 1, 0, board) == False):
-                                result.append(lines)
-                        if (lines == board[1][rowNum - 1][colNum]):
-                            if (board_class.isTaken(rowNum - 1, colNum, 1, board) == False):
-                                result.append(lines)
-                        if (lines == board[1][rowNum - 1][colNum + 1]):
-                            if (board_class.isTaken(rowNum - 1, colNum + 1, 1, board) == False):
-                                result.append(lines)
-                        if (lines == board[1][rowNum][colNum + 1]):
-                            if (board_class.isTaken(rowNum, colNum + 1, 1, board) == False):
-                                result.append(lines)
-                        if (lines == board[1][rowNum][colNum]):
-                            if (board_class.isTaken(rowNum, colNum, 1, board) == False):
-                                result.append(lines)
-                except:
-                    pass
-                
-                pass
+
+
+        pass
         
         pass
     
@@ -217,7 +179,50 @@ class heuristic:
 
 test = heuristic()
 board_test = board.board
-test.h_control_center()
-test.h_counting_score()
-test.h_maintain_connectivity(1, 1, 1, board_test)
+#test.boxes()
+#test.h_counting_score()
+test.h_maintain_connectivity(1, 1, 1)
 #test.utility_fcn()
+
+# for lines in line:
+#                 try:
+#                     if(isVertical):
+#                         if (lines == board[1][rowNum][colNum - 1]): #top 
+#                             if (board_class.isTaken(rowNum, colNum - 1, isVertical, board) == False):
+#                                 result.append(lines)
+#                         if (lines == board[1][rowNum][colNum + 1]):
+#                             if (board_class.isTaken(rowNum, colNum + 1, isVertical, board) == False):
+#                                 result.append(lines)
+#                         if (lines == board[0][rowNum][colNum - 1]):
+#                             if (board_class.isTaken(rowNum, colNum - 1, 0, board) == False):
+#                                 result.append(lines)
+#                         if (lines == board[0][rowNum][colNum]):
+#                             if (board_class.isTaken(rowNum, colNum, 0, board) == False):
+#                                 result.append(lines)
+#                         if (lines == board[0][rowNum + 1][colNum - 1]):
+#                             if (board_class.isTaken(rowNum + 1, colNum - 1, 0, board) == False):
+#                                 result.append(lines)
+#                         if (lines == board[0][rowNum + 1][colNum]):
+#                             if (board_class.isTaken(rowNum + 1, colNum, 0, board) == False):
+#                                 result.append(lines)
+#                     else:
+#                         if (lines == board[0][rowNum][colNum - 1]):
+#                             if (board_class.isTaken(rowNum, colNum - 1, 0, board) == False):
+#                                 result.append(lines)
+#                         if (lines == board[0][rowNum -1 ][colNum + 1]):
+#                             if (board_class.isTaken(rowNum - 1, colNum + 1, 0, board) == False):
+#                                 result.append(lines)
+#                         if (lines == board[1][rowNum - 1][colNum]):
+#                             if (board_class.isTaken(rowNum - 1, colNum, 1, board) == False):
+#                                 result.append(lines)
+#                         if (lines == board[1][rowNum - 1][colNum + 1]):
+#                             if (board_class.isTaken(rowNum - 1, colNum + 1, 1, board) == False):
+#                                 result.append(lines)
+#                         if (lines == board[1][rowNum][colNum + 1]):
+#                             if (board_class.isTaken(rowNum, colNum + 1, 1, board) == False):
+#                                 result.append(lines)
+#                         if (lines == board[1][rowNum][colNum]):
+#                             if (board_class.isTaken(rowNum, colNum, 1, board) == False):
+#                                 result.append(lines)
+#                 except:
+#                     pass

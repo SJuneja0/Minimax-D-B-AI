@@ -110,7 +110,6 @@ class communicator:
             horizontal_lines = self.construct_horizontal_board(text_move_file, 4)
             vertical_lines = self.construct_vertical_board(text_move_file, 4)
             board = (horizontal_lines, vertical_lines)
-            print("board")
             return board
         else:
             print("READ_BOARD: Not our turn")
@@ -127,6 +126,6 @@ class communicator:
 """TEST CODE"""
 COM = communicator("GG")
 COM.read_board()
-COM.write_move((2, 2), (2, 3))
-COM.is_our_turn()
+# COM.write_move((2, 2), (2, 3))
+# COM.is_our_turn()
 
