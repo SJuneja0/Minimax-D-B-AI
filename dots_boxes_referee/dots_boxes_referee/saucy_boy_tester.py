@@ -85,28 +85,69 @@ class heuristic:
         row_num = board[1][-1][0]
         column_num = board[1][-1][1]
         for j in range(row_num):
-            if (board[1][i][0] >= 1):
-                line[1][i+j].append(board[1][i][0])
+            if (board[1][j][0] >= 1):
+                line[1][i+j].append(board[1][j][0])
                 #Value add 0.5
-                line[1][i+j][i] += 0.5
+                line[1][i+j][j] += 0.5
                 
-        for i in range(column_num):
-            if (board[1][i][1] >= 1):
-                line[1][i].append(board[1][i][1])
+        for j in range(column_num):
+            if (board[1][j][1] >= 1):
+                line[1][i+j].append(board[1][j][1])
                 #Value add 0.5
-                line[1][i][i] += 0.5
+                line[1][i+j][j] += 0.5
         
         print("here")
 
     # Input:
     # Output:
     # Purpose:
-    def h_maintain_connectivity(self):
+    def h_maintain_connectivity(self, rowNum, colNum, isVertical):
         board_read = communicator.communicator.read_board()
-        neighbors = board.getNeighbors()
-        for neighbor in neighbors:
-            #if (neighbor == taken): #are not taken then add to the current line
-                #add 1 to value
+        board_class = board.board
+        neighbors = board_class.getNeighbors(rowNum, colNum, isVertical, board_read)
+        result = []
+        for lines in line:
+                try:
+                    if(isVertical):
+                        if (lines == board[1][rowNum][colNum - 1]): #top 
+                            if (board_class.isTaken(rowNum, colNum - 1, isVertical, board) == False):
+                                result.append(lines)
+                        if (lines == board[1][rowNum][colNum + 1]):
+                            if (board_class.isTaken(rowNum, colNum + 1, isVertical, board) == False):
+                                result.append(lines)
+                        if (lines == board[0][rowNum][colNum - 1]):
+                            if (board_class.isTaken(rowNum, colNum - 1, 0, board) == False):
+                                result.append(lines)
+                        if (lines == board[0][rowNum][colNum]):
+                            if (board_class.isTaken(rowNum, colNum, 0, board) == False):
+                                result.append(lines)
+                        if (lines == board[0][rowNum + 1][colNum - 1]):
+                            if (board_class.isTaken(rowNum + 1, colNum - 1, 0, board) == False):
+                                result.append(lines)
+                        if (lines == board[0][rowNum + 1][colNum]):
+                            if (board_class.isTaken(rowNum + 1, colNum, 0, board) == False):
+                                result.append(lines)
+                    else:
+                        if (lines == board[0][rowNum][colNum - 1]):
+                            if (board_class.isTaken(rowNum, colNum - 1, 0, board) == False):
+                                result.append(lines)
+                        if (lines == board[0][rowNum -1 ][colNum + 1]):
+                            if (board_class.isTaken(rowNum - 1, colNum + 1, 0, board) == False):
+                                result.append(lines)
+                        if (lines == board[1][rowNum - 1][colNum]):
+                            if (board_class.isTaken(rowNum - 1, colNum, 1, board) == False):
+                                result.append(lines)
+                        if (lines == board[1][rowNum - 1][colNum + 1]):
+                            if (board_class.isTaken(rowNum - 1, colNum + 1, 1, board) == False):
+                                result.append(lines)
+                        if (lines == board[1][rowNum][colNum + 1]):
+                            if (board_class.isTaken(rowNum, colNum + 1, 1, board) == False):
+                                result.append(lines)
+                        if (lines == board[1][rowNum][colNum]):
+                            if (board_class.isTaken(rowNum, colNum, 1, board) == False):
+                                result.append(lines)
+                except:
+                    pass
                 
                 pass
         
