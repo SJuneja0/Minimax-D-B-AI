@@ -9,8 +9,8 @@ class board:
         # 0 is above, 1 is right, 2 is below, and 3 is left, and 4-7 are identical, except for opposing orientation
         neighbors = ["", "", "", "", "", "", "", ""]
         if(isVertical):
-            verNum = 0
-            notVer = 1
+            verNum = 1
+            notVer = 0
         else:
             verNum = 1
             notVer = 0
@@ -31,16 +31,16 @@ class board:
     
     def lineOwner(rowNum, colNum, isVertical, board):
         if(isVertical):
-            verNum = 0
-        else:
             verNum = 1
+        else:
+            verNum = 0
         return board[verNum][rowNum][colNum]
 
     def isTaken(rowNum, colNum, isVertical, board):
         if(isVertical):
-            verNum = 0
-        else:
             verNum = 1
+        else:
+            verNum = 0
         if(board[verNum][rowNum][colNum] != ""):
             return True
         return False
