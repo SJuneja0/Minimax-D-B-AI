@@ -21,11 +21,11 @@ class board:
             neighbors[2] = verNum + "-" + (rowNum + 1) + "-" + colNum + "-" + board[verNum][rowNum + 1][colNum]
             neighbors[6] = notVer + "-" + (rowNum + 1) + "-" + colNum + "-" + board[notVer][rowNum + 1][colNum]
         if(colNum > 0):
-            neighbors[3] = verNum + "-" + rowNum + "-" + (colNum + 1) + "-" + board[verNum][rowNum][colNum + 1]
-            neighbors[7] = notVer + "-" + rowNum + "-" + (colNum + 1) + "-" + board[notVer][rowNum][colNum + 1]
+            neighbors[3] = verNum + "-" + rowNum + "-" + (colNum - 1) + "-" + board[verNum][rowNum][colNum - 1]
+            neighbors[7] = notVer + "-" + rowNum + "-" + (colNum - 1) + "-" + board[notVer][rowNum][colNum - 1]
         if(colNum < len(board[0][0]) - 1):
-            neighbors[1] = verNum + "-" + rowNum + "-" + (colNum - 1) + "-" + board[verNum][rowNum][colNum - 1]
-            neighbors[5] = notVer + "-" + rowNum + "-" + (colNum - 1) + "-" + board[notVer][rowNum][colNum - 1]
+            neighbors[1] = verNum + "-" + rowNum + "-" + (colNum + 1) + "-" + board[verNum][rowNum][colNum + 1]
+            neighbors[5] = notVer + "-" + rowNum + "-" + (colNum + 1) + "-" + board[notVer][rowNum][colNum + 1]
         return neighbors
         
     
