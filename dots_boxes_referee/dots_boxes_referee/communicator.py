@@ -110,6 +110,8 @@ class communicator:
             horizontal_lines = self.construct_horizontal_board(text_move_file, 4)
             vertical_lines = self.construct_vertical_board(text_move_file, 4)
             board = (horizontal_lines, vertical_lines)
+            print("board")
+            return board
         else:
             print("READ_BOARD: Not our turn")
 

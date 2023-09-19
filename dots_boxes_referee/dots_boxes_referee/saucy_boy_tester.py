@@ -53,18 +53,20 @@ def alpha_beta(time_limit):
 
 class heuristic:
 
-    def __init__(self, name):
-        self.name = name
+    def __init__(self):
+        pass
     # Input:
     # Output:
     # Purpose:
     def h_control_center(self):
-        board = communicator.communicator.read_board()
-        print("here")
+        COM = communicator.communicator("plz")
+        board = COM.read_board()
+
         #horizontal
         value = 0
         count = 0
-        row_num = board[0][-1][0]
+
+        row_num = board[1]#[-1][0]
         column_num = board[0][-1][1]
         line = [[[]]]
         for i in range(row_num):
@@ -77,8 +79,7 @@ class heuristic:
             if (board[0][i][1] >= 1):
                 line[0][i].append(board[0][i][1])
                 #Value add 0.5
-                line[0][i][i] += 0.5
-                
+                line[0][i][i] += 0.5  
         
         #vertical
         value = 0
@@ -96,8 +97,7 @@ class heuristic:
                 #Value add 0.5
                 line[1][i+j][j] += 0.5
         
-        print("here")
-
+        pass
     # Input:
     # Output:
     # Purpose:
@@ -215,9 +215,9 @@ class heuristic:
         
         return box & value
 
-if __name__ == "__main__":
-        try:
-            print("save me")
-            print(heuristic.h_control_center())
-        except:
-            pass
+test = heuristic()
+board_test = board.board
+test.h_control_center()
+test.h_counting_score()
+test.h_maintain_connectivity(1, 1, 1, board_test)
+#test.utility_fcn()
