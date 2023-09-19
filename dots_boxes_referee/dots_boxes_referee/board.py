@@ -12,8 +12,8 @@ class board:
             verNum = 1
             notVer = 0
         else:
-            verNum = 1
-            notVer = 0
+            verNum = 0
+            notVer = 1
         if(rowNum > 0):
             neighbors[0] = verNum + "-" + (rowNum - 1) + "-" + colNum + "-" + board[verNum][rowNum - 1][colNum]
             neighbors[4] = notVer + "-" + (rowNum - 1) + "-" + colNum + "-" + board[notVer][rowNum - 1][colNum]
