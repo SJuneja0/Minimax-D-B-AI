@@ -20,7 +20,7 @@ def decide_move(current_board, time_limit):
 # Purpose: To check if a given move is valid
 def valid_move(rowNum, colNum, isVertical, board):
     bd = board()
-    if rowNum >= len(board[0]) or rowNum < 0 or colNum >= len(board[0][0]) or colNum < 0:
+    if (rowNum >= len(board[0]) or rowNum < 0 or colNum >= len(board[0][0]) or colNum < 0):
         return False
     elif bd.isTaken(rowNum, colNum, isVertical, board):
         return False
