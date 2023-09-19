@@ -24,8 +24,8 @@ class board:
             neighbors[3] = verNum + "-" + rowNum + "-" + (colNum - 1) + "-" + board[verNum][rowNum][colNum - 1]
             neighbors[7] = notVer + "-" + rowNum + "-" + (colNum - 1) + "-" + board[notVer][rowNum][colNum - 1]
         if(colNum < len(board[0][0]) - 1):
-            neighbors[3] = verNum + "-" + rowNum + "-" + (colNum + 1) + "-" + board[verNum][rowNum][colNum + 1]
-            neighbors[7] = notVer + "-" + rowNum + "-" + (colNum + 1) + "-" + board[notVer][rowNum][colNum + 1]
+            neighbors[1] = verNum + "-" + rowNum + "-" + (colNum + 1) + "-" + board[verNum][rowNum][colNum + 1]
+            neighbors[5] = notVer + "-" + rowNum + "-" + (colNum + 1) + "-" + board[notVer][rowNum][colNum + 1]
         return neighbors
         
     
