@@ -108,6 +108,28 @@ def h_counting_score():
 # Output: Int of how good that board state is for our AI
 # Purpose: To tell how good a theoretical move is
 def utility_fcn():
-    pass
+    ai_score = 0
+    opponent_score = 0
 
+    # Count the number of completed boxes for each player.
+    for box in board.completed_boxes:
+        if box.owner == 'AI':
+            ai_score += 1
+        elif box.owner == 'GG':
+            opponent_score += 1
 
+    # Evaluate edge control.
+    ai_edges = len(board.edges_controlled_by('AI'))
+    opponent_edges = len(board.edges_controlled_by('Opponent'))
+
+    # Evaluate box control.
+    ai_score += ai_score - opponent_score
+
+    # Consider the number of available moves.
+    ai_moves = len(board.get_legal_moves('AI'))
+    opponent_moves = len(board.get_legal_moves('Opponent'))
+
+    # Combine and balance the factors in your heuristic.
+    heuristic_score = (ai_score - opponent_score) + (ai_edges - opponent_edges) + (ai_moves - opponent_moves)
+
+    return heuristic_score
