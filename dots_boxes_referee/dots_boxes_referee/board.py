@@ -155,5 +155,4 @@ if __name__ == "__main__":
     #     return box
 
 
-board_ish = board()
 #print(board_ish.boxes())

@@ -14,7 +14,7 @@ class saucy_boy:
     def __init__(self, opponent):
         self.bd = board.Board(10, 10)
         self.our_board = self.bd.create_board()
-        self.queue = queue.Queue  # TODO MAKE QUEUE CLASS
+        self.queue = queue()  # TODO MAKE QUEUE CLASS
         self.tree = treeNode.treeNode()  # TODO make tree node
         self.name = "SaucyBoy"
         self.opponent = opponent # possibly change
