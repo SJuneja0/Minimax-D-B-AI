@@ -12,7 +12,7 @@ import time
 class saucy_boy:
 
     def __init__(self, opponent):
-        self.bd = board.Board(10, 10)
+        self.bd = board.Board(10, 10, "SaucyBoy")
         self.our_board = self.bd.create_board()
         self.queue = queue()  # TODO MAKE QUEUE CLASS
         self.tree = treeNode.treeNode()  # TODO make tree node
@@ -31,7 +31,7 @@ class saucy_boy:
     # Purpose: To check if a given move is valid
     def valid_move(self, rowNum, colNum, isVertical, board):
         bd = board()
-        if (rowNum >= len(board[0]) or rowNum < 0 or colNum >= len(board[0][0]) or colNum < 0):
+        if rowNum >= len(board[0]) or rowNum < 0 or colNum >= len(board[0][0]) or colNum < 0:
             return False
         elif bd.isTaken(rowNum, colNum, isVertical, board):
             return False

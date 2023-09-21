@@ -12,9 +12,9 @@ class communicator:
         # Constructing h_board
         h_row = []
         h_board = []
-        for i in range(board_size-1):
+        for i in range(board_size - 1):
             h_row.append("")
-        for j in range (board_size):
+        for j in range(board_size):
             h_board.append(h_row.copy())
 
         # Constructing v_board
@@ -22,7 +22,7 @@ class communicator:
         v_board = []
         for i in range(board_size):
             v_row.append("")
-        for j in range(board_size-1):
+        for j in range(board_size - 1):
             v_board.append(v_row.copy())
 
         board = [h_board, v_board]
@@ -43,6 +43,7 @@ class communicator:
             print("WRITE_MOVE: Not our turn")
 
     """FUNCTIONS"""
+
     # # Input:
     # # Output:
     # # Purpose: Separates all the moves
@@ -129,7 +130,6 @@ class communicator:
             text_move_file = move_file.read()
             text_move_file.split()
 
-
     # Input: Null
     # Output: Array of current board-state
     # Purpose: Takes the newest move_file and converts it into a readable format for the AI
@@ -160,4 +160,3 @@ COM = communicator("GG", 4)
 COM.read_board()
 # COM.write_move((2, 2), (2, 3))
 # COM.is_our_turn()
-

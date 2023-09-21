@@ -1,27 +1,34 @@
 import communicator
+
+
 class Dot:
     def __init__(self, row, column):
         self.row = row
         self.column = column
 
+
 class Edge:
     def __init__(self, dot1, dot2):
         self.dot1 = dot1
         self.dot2 = dot2
-        self.owner = None   #string
+        self.owner = None  # string
+
 
 class Box:
     def __init__(self, dots):
         self.dots = dots
-        self.owner = None   #string
+        self.owner = None  # string
+
 
 class Board:
-    def __init__(self, row, column):
+    def __init__(self, row, column, owner, opponent):
         self.row = row
         self.column = column
         self.edges = []
         self.dots = []
         self.box = []
+        self.owner = owner
+        self.opponent = opponent
         self.completed_boxes = []
 
     # Input:
@@ -43,7 +50,6 @@ class Board:
         # name, point 1, point 2
         pass
 
-
     def create_board(self):
         for x in range(self.row + 1):
             for y in range(self.column + 1):
@@ -62,8 +68,11 @@ class Board:
         for x in range(self.row):
             for y in range(self.column):
                 curr_box = Box([self.dots[x * (self.column + 1) + y], self.dots[x * (self.column + 1) + (y + 1)],
-                                self.dots[(x + 1) * (self.column + 1) + y], self.dots[(x + 1) * (self.column + 1) + (y + 1)]])
+                                self.dots[(x + 1) * (self.column + 1) + y],
+                                self.dots[(x + 1) * (self.column + 1) + (y + 1)]])
                 self.box.append(curr_box)
+
+        self.update_board(self.oppenent)
 
     def edges_controlled_by(self, player):
         controlled_edges = []
@@ -88,49 +97,50 @@ class Board:
         return not any(edge.owner is None for edge in self.edges)
 
     def getNeighbors(self, rowNum, colNum, isVertical, board):
-        # neighbors is an array of 8 strings denoted as "[vertical indicator (0 or 1)]-[row number]-[col number]-[Owner]"
-        # 0 is above, 1 is right, 2 is below, and 3 is left, and 4-7 are identical, except for opposing orientation
+        # neighbors is an array of 8 strings denoted as "[vertical indicator (0 or 1)]-[row number]-[col number]-[
+        # Owner]" 0 is above, 1 is right, 2 is below, and 3 is left, and 4-7 are identical, except for opposing
+        # orientation
         neighbors = [[], [], [], [], [], [], [], []]
-        if (isVertical):
+        if isVertical:
             verNum = 1  # TODO changed verNum
             notVer = 0
         else:
             verNum = 0
             notVer = 1
-        if (rowNum > 0):
+        if rowNum > 0:
             neighbors[0] = [verNum, (rowNum - 1), colNum, board[verNum][rowNum - 1][colNum]]
             neighbors[4] = [notVer, (rowNum - 1), colNum, board[notVer][rowNum - 1][colNum]]
-        if (rowNum < len(board[0]) - 1):
+        if rowNum < len(board[0]) - 1:
             neighbors[2] = [verNum, (rowNum + 1), colNum, board[verNum][rowNum + 1][colNum]]
             neighbors[6] = [notVer, (rowNum + 1), colNum, board[notVer][rowNum + 1][colNum]]
-        if (colNum > 0):
+        if colNum > 0:
             neighbors[3] = [verNum, rowNum, (colNum - 1), board[verNum][rowNum][colNum - 1]]
             neighbors[7] = [notVer, rowNum, (colNum - 1), board[notVer][rowNum][colNum - 1]]
-        if (colNum < len(board[0][0]) - 1):
+        if colNum < len(board[0][0]) - 1:
             neighbors[1] = [verNum, rowNum, (colNum + 1), board[verNum][rowNum][colNum + 1]]
             neighbors[5] = [notVer, rowNum, (colNum + 1), board[notVer][rowNum][colNum + 1]]
         return neighbors
 
-    def lineOwner(rowNum, colNum, isVertical, board):
-        if (isVertical):
+    def lineOwner(self, rowNum, colNum, isVertical, board):
+        if isVertical:
             verNum = 1
         else:
             verNum = 0
         return board[verNum][rowNum][colNum]
 
     def isTaken(self, rowNum, colNum, isVertical, board):
-        if (isVertical):
+        if isVertical:
             verNum = 1
         else:
             verNum = 0
-        if (board[verNum][rowNum][colNum] != ""):
+        if board[verNum][rowNum][colNum] != "":
             return True
         return False
 
-if __name__ == "__main__":
-    game_board = Board(9, 9)
-    game_board.create_board()
 
+if __name__ == "__main__":
+    game_board = Board(9, 9, "SaucyBoy", "Enemy")
+    game_board.create_board()
 
     # def boxes(self):
     #     box = []
@@ -154,5 +164,4 @@ if __name__ == "__main__":
     #
     #     return box
 
-
-#print(board_ish.boxes())
+# print(board_ish.boxes())
