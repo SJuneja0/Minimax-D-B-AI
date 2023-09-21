@@ -1,5 +1,5 @@
 import queue
-import tree_node
+import tree_node as treeNode
 
 import referee
 import communicator
@@ -67,9 +67,26 @@ class saucy_boy:
     # Input: Array of the current board-state
     # Output: Two tuples of a valid move and it's value
     # Purpose: To decide the next move
-    def mini_max(self, time_limit):
-
-        pass
+    def mini_max(self, treeNode, depth, isMaximizing, alpha, beta):
+        # if the game would be over or if this is the bottom node so far
+        if not treeNode.children:
+            return self.utility_fcn(treeNode.board, self.name, self.opponent)
+        if isMaximizing:
+            maxValue = 999
+            for child in treeNode.children:
+                value = self.mini_max(child, depth-1, False, alpha, beta)
+                maxValue = max(value, maxValue)
+                alpha = max(alpha, value)
+                if beta <= alpha:
+                    break
+            return maxValue
+        else:
+            minValue = -999
+            for child in treeNode.children:
+                value = self.mini_max(child, depth-1, True, alpha, beta)
+                minValue = min(value, minValue)
+                beta = min(beta, value)
+            return minValue
 
     # Input:
     # Output:

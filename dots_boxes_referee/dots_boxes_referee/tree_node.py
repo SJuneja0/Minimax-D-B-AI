@@ -1,6 +1,7 @@
 class treeNode:
 
-    def __init__(self, children, came_from, depth, utility_value, value_range):
+    def __init__(self, board, children, came_from, depth, utility_value, value_range):
+        self.board = board
         self.children = children # array [treeNode...]
         self.came_from = came_from # treeNode
         self.depth = depth # int
@@ -15,3 +16,6 @@ class treeNode:
             path.append(self) # Add it to the path discovered
             self.came_from.construct_path(path) # And repeat this process with the parent
         return path # When the root node is reached, return the path to the root node
+
+    def isGameOver(self):
+        return True
