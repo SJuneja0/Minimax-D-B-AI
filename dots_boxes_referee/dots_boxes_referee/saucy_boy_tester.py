@@ -66,8 +66,8 @@ def alpha_beta(time_limit):
 #         count = 0
 #
 #         #the board is empty wtf
-#         row_num = board[1]#[-3][0]
-#         column_num = board[0][-3][1]
+#         row_num = board[1]#[-1][0]
+#         column_num = board[0][-1][1]
 #         line = [[[]]]
 #         for i in range(row_num):
 #             if (board[0][i][0] >= 1):
@@ -214,3 +214,43 @@ board_test = board.board
 #test.h_counting_score()
 #test.h_maintain_connectivity(1, 1, 1)
 #test.utility_fcn()
+
+
+# def minimax(board, depth, alpha, beta, maximizing_player):
+#     if depth == 0 or game_over(board):
+#         return evaluate_board(board)
+#
+#     if maximizing_player:
+#         max_eval = float('-inf')
+#         for move in possible_moves(board):
+#             new_board = make_move(board, move)
+#             eval = minimax(new_board, depth - 1, alpha, beta, False)
+#             max_eval = max(max_eval, eval)
+#             alpha = max(alpha, eval)
+#             if beta <= alpha:
+#                 break  # Prune the remaining branches
+#         return max_eval
+#     else:
+#         min_eval = float('inf')
+#         for move in possible_moves(board):
+#             new_board = make_move(board, move)
+#             eval = minimax(new_board, depth - 1, alpha, beta, True)
+#             min_eval = min(min_eval, eval)
+#             beta = min(beta, eval)
+#             if beta <= alpha:
+#                 break  # Prune the remaining branches
+#         return min_eval
+#
+# def best_move(board):
+#     best_score = float('-inf')
+#     best_move = None
+#     alpha = float('-inf')
+#     beta = float('inf')
+#     for move in possible_moves(board):
+#         new_board = make_move(board, move)
+#         score = minimax(new_board, 3, alpha, beta, False)  # Adjust the depth as needed.
+#         if score > best_score:
+#             best_score = score
+#             best_move = move
+#         alpha = max(alpha, score)
+#     return best_move

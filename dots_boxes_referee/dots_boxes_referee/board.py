@@ -1,6 +1,5 @@
 import communicator
-
-class dot:
+class Dot:
     def __init__(self, row, column):
         self.row = row
         self.column = column
@@ -9,24 +8,84 @@ class Edge:
     def __init__(self, dot1, dot2):
         self.dot1 = dot1
         self.dot2 = dot2
-        self.owner = None
+        self.owner = None   #string
 
 class Box:
+    def __init__(self, dots):
+        self.dots = dots
+        self.owner = None   #string
+
+class Board:
     def __init__(self, row, column):
         self.row = row
         self.column = column
-        self.owner = None
-class board:
-
-    def __init__(self):
-        self.com = communicator.communicator("GG")
-        self.board = self.com.read_board()
         self.edges = []
         self.dots = []
-        self.row = 9
-        self.column = 9
         self.box = []
         self.completed_boxes = []
+
+    # Input:
+    # Output:
+    # Purpose:
+    def update_board(self, owner):
+        move_file = open("move_file", "r")
+        text_move_file = move_file.read()
+        move = text_move_file.split()
+        move_file = open("move_file", "a")
+        dot1 = Dot(move[1][0], move[1][1])
+        dot2 = Dot(move[2][0], move[2][1])
+        for edge in self.edges:
+            if edge.dot1 == dot1 & edge.dot2 == dot2:
+                edge.owner = owner
+        # point1_to_string = str(move[1][0]) + "," + str(move[1][1])
+        # point2_to_string = str(move[2][0]) + "," + str(move[2][1])
+        # move_file.write(self.name + " " + point1_to_string + " " + point2_to_string + "\n")
+        # name, point 1, point 2
+        pass
+
+
+    def create_board(self):
+        for x in range(self.row + 1):
+            for y in range(self.column + 1):
+                self.dots.append(Dot(x, y))
+
+        for x in range(self.row):
+            for y in range(self.column + 1):
+                edge = Edge(self.dots[y + x * (self.column + 1)], self.dots[y + (x + 1) * (self.column + 1)])
+                self.edges.append(edge)
+
+        for x in range(self.row + 1):
+            for y in range(self.column):
+                edge = Edge(self.dots[y + x * (self.column + 1)], self.dots[y + (x + 1) * (self.column + 1)])
+                self.edges.append(edge)
+
+        for x in range(self.row):
+            for y in range(self.column):
+                curr_box = Box([self.dots[x * (self.column + 1) + y], self.dots[x * (self.column + 1) + (y + 1)],
+                                self.dots[(x + 1) * (self.column + 1) + y], self.dots[(x + 1) * (self.column + 1) + (y + 1)]])
+                self.box.append(curr_box)
+
+    def edges_controlled_by(self, player):
+        controlled_edges = []
+        for edge in self.edges:
+            if edge.owner == player:
+                controlled_edges.append(edge)
+        return controlled_edges
+
+    def get_legal_moves(self):
+        legal_moves = []
+        for edge in self.edges:
+            if edge.owner is None:
+                legal_moves.append(edge)
+        return legal_moves
+
+    def box_check(self):
+        for box in self.box:
+            if box.owner is not None:
+                self.completed_boxes.append(box)
+
+    def is_game_over(self):
+        return not any(edge.owner is None for edge in self.edges)
 
     def getNeighbors(self, rowNum, colNum, isVertical, board):
         # neighbors is an array of 8 strings denoted as "[vertical indicator (0 or 1)]-[row number]-[col number]-[Owner]"
@@ -68,20 +127,11 @@ class board:
             return True
         return False
 
-    def edges_controlled_by(self, player):
-        controlled_edges = []
-        for edge in self.edges:
-            if edge.owner == player:
-                controlled_edges.append(edge)
-        return controlled_edges
+if __name__ == "__main__":
+    game_board = Board(9, 9)
+    game_board.create_board()
 
-    def get_legal_moves(self):
-        # Return a list of legal moves (unclaimed edges).
-        legal_moves = []
-        for edge in self.edges:
-            if edge.owner is None:
-                legal_moves.append(edge)
-        return legal_moves
+
     # def boxes(self):
     #     box = []
     #     coms = communicator.communicator("GG")
@@ -103,36 +153,7 @@ class board:
     #         count += 1
     #
     #     return box
-    def box_check(self):
-        count = 0
-        for box in self.box:
-            if (box.owner != None):
-                self.completed_boxes.append(box)
-    def generate_board(self):
-        # Create dots and edges based on the board's width and height.
-        for x in range(self.row + 1):
-            for y in range(self.column + 1):
-                self.dots.append(dot(x, y))
 
-        # Create horizontal edges.
-        for x in range(self.row):
-            for y in range(self.column + 1):
-                edge = Edge(self.dots[y + x * (self.column + 1)], self.dots[y + (x + 1) * (self.column + 1)])
-                self.edges.append(edge)
-
-        # Create vertical edges.
-        for x in range(self.row + 1):
-            for y in range(self.column):
-                edge = Edge(self.dots[y + x * (self.column + 1)], self.dots[y + (x + 1) * (self.column + 1)])
-                self.edges.append(edge)
-
-        for x in range(self.row):
-            for y in range(self.column):
-                self.box.append()                                     #need to add 4 dots
-
-    def is_game_over(self):
-        # Check if the game is over by verifying that no more legal moves are available.
-        return not any(edge.owner is None for edge in self.edges)
 
 board_ish = board()
 #print(board_ish.boxes())
