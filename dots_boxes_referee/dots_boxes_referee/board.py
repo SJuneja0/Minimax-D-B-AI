@@ -44,10 +44,22 @@ class Board:
         for edge in self.edges:
             if edge.dot1 == dot1 & edge.dot2 == dot2:
                 edge.owner = owner
-        # point1_to_string = str(move[1][0]) + "," + str(move[1][1])
-        # point2_to_string = str(move[2][0]) + "," + str(move[2][1])
-        # move_file.write(self.name + " " + point1_to_string + " " + point2_to_string + "\n")
-        # name, point 1, point 2
+
+        for box in self.box:
+            if box.owner == None:
+                count = 0
+                this_box = False
+                for i in range(4):
+                    edge = box.dots[i]
+                    if edge.owner != None:
+                        count += 1
+                        if edge.dot1 == dot1 & edge.dot2 == dot2:
+                            edge.owner = owner
+                            this_box = True
+                        if count >= 4 & this_box:
+                            box.owner = owner
+
+
         pass
 
     def create_board(self):
@@ -67,9 +79,10 @@ class Board:
 
         for x in range(self.row):
             for y in range(self.column):
-                curr_box = Box([self.dots[x * (self.column + 1) + y], self.dots[x * (self.column + 1) + (y + 1)],
-                                self.dots[(x + 1) * (self.column + 1) + y],
-                                self.dots[(x + 1) * (self.column + 1) + (y + 1)]])
+                curr_box = Box([Edge(self.dots[x * (self.column + 1) + y], self.dots[x * (self.column + 1) + (y + 1)]),
+                                Edge(self.dots[x * (self.column + 1) + (y + 1)], self.dots[(x + 1) * (self.column + 1) + y]),
+                                Edge(self.dots[(x + 1) * (self.column + 1) + y], self.dots[(x + 1) * (self.column + 1) + (y + 1)]),
+                                Edge(self.dots[self.dots[(x + 1) * (self.column + 1) + (y + 1)], self.dots[x * (self.column + 1) + y]])])
                 self.box.append(curr_box)
 
         self.update_board(self.oppenent)
