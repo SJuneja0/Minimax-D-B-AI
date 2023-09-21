@@ -86,6 +86,8 @@ class saucy_boy:
                 value = self.mini_max(child, depth-1, True, alpha, beta)
                 minValue = min(value, minValue)
                 beta = min(beta, value)
+                if beta <= alpha:
+                    break
             return minValue
 
     # Input:
