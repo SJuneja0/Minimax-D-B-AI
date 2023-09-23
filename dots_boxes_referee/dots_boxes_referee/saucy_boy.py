@@ -37,6 +37,7 @@ class saucy_boy:
             return False
         return True
 
+    # TODO: REWRITE THIS TO WORK WITH THE TREE_NODE CLASS, INPUT IS NOW A TREE NODE
     # Input: Board
     # Input: Name to write to the spot
     # Output: Array of possible valid board states
@@ -68,44 +69,63 @@ class saucy_boy:
     # Output: A path of the optimal move
     # Purpose: To decide the optimal move given a search tree
     def mini_max(self, treeNode, isMaximizing, alpha, beta, bestFinalPosition):
-        # if the game would be over or if this is the bottom node so far
-        # TODO: Make this function return the best path if all paths are explored
-        # Make it return the treeNode with the best path at each step/at the end and then use the node's
-        # construct_path() to make back the path
+        # if the game would be over or if this is the bottom node so far (i.e., this position has no children)
+        # generate the value of this node based on the utility function
         if not treeNode.children:
-            return self.utility_fcn(treeNode.board, self.name, self.opponent) # TODO: Check utility function works
+            return self.utility_fcn(treeNode.board, self.name, self.opponent)
+
+        # if this node is maximizing (our turn to pick)
         if isMaximizing:
-            maxValue = 999
-            for child in treeNode.children:
-                value = self.mini_max(child, False, alpha, beta, bestFinalPosition)
+            maxValue = -999  # set the current maxValue to -infinity
+            for child in treeNode.children:  # look through children for the greatest value among them
+                value = self.mini_max(child, False, alpha, beta, bestFinalPosition)  # look through children's children
                 if value > maxValue:
                     maxValue = value
-                    if not child.children:
-                        bestFinalPosition = child
+                    if not child.children:  # if a node is the bottom node, and it is the current biggest
+                        bestFinalPosition = child  # set it to be the best node
+                # Alpha-Beta Pruning
                 alpha = max(alpha, value)
                 if beta <= alpha:
                     break
+            # if this is the starting node, and it's done looking through its children, return the best bottom child
             if treeNode.isStarting:
                 return bestFinalPosition
             return maxValue
+
+        # else if the node is minimizing (opponent's turn to pick)
         else:
-            minValue = -999
-            for child in treeNode.children:
-                value = self.mini_max(child, True, alpha, beta, bestFinalPosition)
+            minValue = 999  # set current min value to infinity
+            for child in treeNode.children:  # look through children for the greatest value among them
+                value = self.mini_max(child, True, alpha, beta, bestFinalPosition)  # look through children's children
                 if value < minValue:
                     minValue = value
-                    if not child.children:
-                        bestFinalPosition = child
+                    if not child.children:  # if a node is the bottom node, and it is the current smallest
+                        bestFinalPosition = child  # set it to be the best node
                 beta = min(beta, value)
                 if beta <= alpha:
                     break
             return minValue
 
-    # Input:
-    # Output:
-    # Purpose:
-    def alpha_beta(self, time_limit):
-        pass
+    # Input: A initial tree node that's children are empty
+    # Output: A tree node with children who have children down to a specified depth
+    # Purpose: Fills a starting tree node with children down to a specified depth
+    def generate_search_tree(self, curr_tree_Node, depth, isOurTurn):
+        # if this node is above the limiting depth, generate it's children
+        if depth > 0:
+            if isOurTurn:
+                name = self.name
+            else:
+                name = self.opponent
+            curr_tree_Node.children = self.generate_possible_moves(curr_tree_Node, name)
+
+        # for each child of this node, generate the children's children (recursively),
+        # all editing the original treeNode
+        for child in curr_tree_Node.children:
+            self.generate_search_tree(child, depth-1, (not isOurTurn))
+
+        # if this node the function is inspecting is the first one, return it now that it is filled up
+        if curr_tree_Node.isStarting:
+            return curr_tree_Node
 
     """Heuristics"""
 
