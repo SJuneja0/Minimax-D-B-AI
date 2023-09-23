@@ -106,6 +106,7 @@ class saucy_boy:
                     break
             return minValue
 
+    # TODO: NEED TO IMPLEMENT THE FACT THAT IF YOU GET A SQUARE, YOU GO AGAIN, DO THIS IN CHILD GENERATION
     # Input: A initial tree node that's children are empty
     # Output: A tree node with children who have children down to a specified depth
     # Purpose: Fills a starting tree node with children down to a specified depth
