@@ -65,26 +65,37 @@ class saucy_boy:
     """Search Method"""
 
     # Input: Array of the current board-state
-    # Output: Two tuples of a valid move and it's value
-    # Purpose: To decide the next move
-    def mini_max(self, treeNode, depth, isMaximizing, alpha, beta):
+    # Output: A path of the optimal move
+    # Purpose: To decide the optimal move given a search tree
+    def mini_max(self, treeNode, isMaximizing, alpha, beta, bestFinalPosition):
         # if the game would be over or if this is the bottom node so far
+        # TODO: Make this function return the best path if all paths are explored
+        # Make it return the treeNode with the best path at each step/at the end and then use the node's
+        # construct_path() to make back the path
         if not treeNode.children:
-            return self.utility_fcn(treeNode.board, self.name, self.opponent)
+            return self.utility_fcn(treeNode.board, self.name, self.opponent) # TODO: Check utility function works
         if isMaximizing:
             maxValue = 999
             for child in treeNode.children:
-                value = self.mini_max(child, depth-1, False, alpha, beta)
-                maxValue = max(value, maxValue)
+                value = self.mini_max(child, False, alpha, beta, bestFinalPosition)
+                if value > maxValue:
+                    maxValue = value
+                    if not child.children:
+                        bestFinalPosition = child
                 alpha = max(alpha, value)
                 if beta <= alpha:
                     break
+            if treeNode.isStarting:
+                return bestFinalPosition
             return maxValue
         else:
             minValue = -999
             for child in treeNode.children:
-                value = self.mini_max(child, depth-1, True, alpha, beta)
-                minValue = min(value, minValue)
+                value = self.mini_max(child, True, alpha, beta, bestFinalPosition)
+                if value < minValue:
+                    minValue = value
+                    if not child.children:
+                        bestFinalPosition = child
                 beta = min(beta, value)
                 if beta <= alpha:
                     break

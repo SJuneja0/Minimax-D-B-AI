@@ -1,12 +1,13 @@
 class treeNode:
 
-    def __init__(self, board, children, came_from, depth, utility_value, value_range):
+    def __init__(self, board, children, came_from, depth, utility_value, value_range, isStarting):
         self.board = board
         self.children = children # array [treeNode...]
         self.came_from = came_from # treeNode
         self.depth = depth # int
         self.utility_value = utility_value # float
         self.value_range = value_range # array [float, float]
+        self.isStarting = isStarting
 
     # Input:
     # Output:
