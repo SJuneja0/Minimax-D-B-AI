@@ -51,10 +51,9 @@ class saucy_boy:
             stree = self.generate_search_tree(root_node, depth, True)
             best_final_node = self.mini_max(stree, True, -9999, 9999, None) # TODO: check initial values of alpha and beta
             best_path = best_final_node.construct_path([])
-            best_move = best_path[-2] #TODO: allow this to handle taking multiple moves in a row
+            best_move = best_path[-2]
 
         return best_move.board
-
     def separate_move(self, new_board):
         for i in range(len(new_board.edges)):
             if not new_board.edges[i].equals(self.bd.edges[i]):
