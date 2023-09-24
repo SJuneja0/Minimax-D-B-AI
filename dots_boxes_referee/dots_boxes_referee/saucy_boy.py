@@ -23,7 +23,11 @@ class saucy_boy:
     # Output: Null
     # Purpose: Decides the optimal move and publishes it to the referee, this is the main function
     def decide_move(self, current_board, time_limit):
-        pass
+        start_timer = time.perf_counter()
+        best_move = None
+        root_node = treeNode.treeNode(current_board, [], None, True)
+        while(start_timer + time_limit >= time.perf_counter):
+            self.generate_search_tree()
 
     # Input: Two tuples (representing the points for a potential move)
     # Input: Array of the current board-state
