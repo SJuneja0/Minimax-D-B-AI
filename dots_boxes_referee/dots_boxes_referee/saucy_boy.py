@@ -22,16 +22,19 @@ class saucy_boy:
 
     def main(self):
         # DO INITIALIZATION HERE
-
+        # lmao
 
         # TODO: adjust for if opponents or we get a point/take another turn
         while not self.bd.is_game_over():
             if self.coms.is_our_turn():
-                self.bd.update_board()
-                best_move_board = self.decide_move(self.bd) # best move is board that is one level below the curr root board
-                best_move = self.seperate_move(best_move_board)
-                self.coms.write_move(best_move.dot1, best_move.dot2)
-                self.bd.update_board()
+                if self.bd.update_board():
+                    best_move_board = self.decide_move(self.bd)  # best move is board that is one level below the curr root board
+                    best_move = self.seperate_move(best_move_board)
+                    self.coms.write_move(best_move.dot1, best_move.dot2)
+                    self.bd.update_board()
+                else:
+                    break
+
         # DO GAME TERMINATION HERE
 
         pass
