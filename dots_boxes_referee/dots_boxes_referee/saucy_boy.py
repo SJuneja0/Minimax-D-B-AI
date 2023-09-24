@@ -13,7 +13,7 @@ class saucy_boy:
         self.bd.create_board()
         self.tree = treeNode.treeNode()
         self.name = "SaucyBoy"
-        self.opponent = None  # TODO update this in main loop
+        self.opponent = None
         self.coms = communicator.communicator(self.name)
 
     def main(self):
@@ -21,21 +21,25 @@ class saucy_boy:
         isWeWin = True
         while not self.bd.is_game_over():
             if self.coms.is_our_turn():
+                curr_boxes_taken = len(self.bd.completed_boxes)
                 isValid = self.bd.update_board()
-                if not (type(isValid) == board.Edge):
+                new_box_taken = len(self.bd.completed_boxes)
+                if not curr_boxes_taken == new_box_taken:
+                    # write false move and pass back board
+                    self.bd.write_false_move()  # TODO: make this function handle false moves/opponent's turns
+                    pass
+                elif type(isValid) == board.Edge:
+                    self.coms.report_invalid_move(isValid)  # TODO: make this function handle inValid moves
+                    break
+                else:
                     best_move_board = self.decide_move(self.bd)  # best move is board that is one level below the curr root board
                     best_move = self.seperate_move(best_move_board)
                     self.coms.write_move(best_move.dot1, best_move.dot2)
                     self.bd.update_board()
-                else:
-                    # report invalid move
-                    break
         # DO GAME TERMINATION HERE
 
         pass
 
-
-    not type(valid) == Edge
     # Input: Array of the current board-state and the time limit for the AI
     # Output: Null
     # Purpose: Decides the optimal move and publishes it to the referee, this is the main function
@@ -44,11 +48,10 @@ class saucy_boy:
         best_move = None
         root_node = treeNode.treeNode(current_board, [], None, True)
         depth = 0
-        while start_timer + time_limit >= time.perf_counter:
+        while start_timer + time_limit >= time.perf_counter():
             depth += 2
-            stree = self.generate_search_tree(root_node, depth, True)
-            best_final_node = self.mini_max(stree, True, -9999, 9999,
-                                            None)  # TODO: check initial values of alpha and beta
+            searchTree = self.generate_search_tree(root_node, depth, True)
+            best_final_node = self.mini_max(searchTree, True, -9999, 9999, None)
             best_path = best_final_node.construct_path([])
             best_move = best_path[-2]
 
