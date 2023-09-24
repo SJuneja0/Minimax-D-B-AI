@@ -121,8 +121,14 @@ class saucy_boy:
 
         # for each child of this node, generate the children's children (recursively),
         # all editing the original treeNode
-        for child in curr_tree_Node.children:
-            self.generate_search_tree(child, depth-1, (not isOurTurn))
+        # if there is a new square (one more then the previous boardstate), the player gets another turn
+        if len(curr_tree_Node.came_from.board.completed_boxes()) < curr_tree_Node.board.completed_boxes(): # if new square
+            for child in curr_tree_Node.children:
+                self.generate_search_tree(child, depth-1, isOurTurn)
+        else:
+            for child in curr_tree_Node.children:
+                self.generate_search_tree(child, depth-1, (not isOurTurn))
+
 
         # if this node the function is inspecting is the first one, return it now that it is filled up
         if curr_tree_Node.isStarting:
