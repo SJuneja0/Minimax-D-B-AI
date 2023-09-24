@@ -69,20 +69,21 @@ class Board:
                 edge = Edge(self.dots[y + x * (self.column + 1)], self.dots[y + (x + 1) * (self.column + 1)])
                 self.edges.append(edge)
 
-        for x in range(self.row + 1):
+        for x in range(self.row):
             for y in range(self.column):
                 edge = Edge(self.dots[y + x * (self.column + 1)], self.dots[y + (x + 1) * (self.column + 1)])
                 self.edges.append(edge)
 
         for x in range(self.row):
             for y in range(self.column):
-                curr_box = Box([Edge(self.dots[x * (self.column + 1) + y], self.dots[x * (self.column + 1) + (y + 1)]),
-                                Edge(self.dots[x * (self.column + 1) + (y + 1)], self.dots[(x + 1) * (self.column + 1) + y]),
-                                Edge(self.dots[(x + 1) * (self.column + 1) + y], self.dots[(x + 1) * (self.column + 1) + (y + 1)]),
-                                Edge(self.dots[self.dots[(x + 1) * (self.column + 1) + (y + 1)], self.dots[x * (self.column + 1) + y]])])
-                self.box.append(curr_box)
+                top_edge = self.edges[y + x * self.column]
+                right_edge = self.edges[y + (x + 1) * self.column + (self.row + 1) * self.column]
+                bottom_edge = self.edges[y + (x + 1) * self.column + (self.row + 1) * self.column + self.column]
+                left_edge = self.edges[y + x * self.column + self.row + 1]
 
-        self.update_board(self.oppenent)
+                curr_box = Box([top_edge, right_edge, bottom_edge, left_edge])
+                self.box.append(curr_box)
+        self.update_board(self)
 
     def edges_controlled_by(self, player):
         controlled_edges = []
@@ -157,7 +158,7 @@ class Board:
 
 if __name__ == "__main__":
     game_board = Board(9, 9, "SaucyBoy", "Enemy")
-    game_board.create_board()
+    print(game_board.create_board())
 
     # def boxes(self):
     #     box = []
