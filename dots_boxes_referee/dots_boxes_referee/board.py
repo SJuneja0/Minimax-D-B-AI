@@ -105,6 +105,13 @@ class Board:
         for box in self.box:
             if box.owner is not None:
                 self.completed_boxes.append(box)
+    
+    def new_box_completed(self):
+        prev_box_count = len(self.completed_boxes)
+        self.box_check()
+        if(prev_box_count < len(self.completed_boxes)):
+            return True
+        return False
 
     def is_game_over(self):
         return not any(edge.owner is None for edge in self.edges)
