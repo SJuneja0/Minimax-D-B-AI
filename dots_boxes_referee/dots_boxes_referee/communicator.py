@@ -4,29 +4,8 @@ import os
 
 class communicator:
 
-    def __init__(self, name, board_size):
+    def __init__(self, name):
         self.name = name
-        self.board = self.gen_board(board_size)
-
-    def gen_board(self, board_size):
-        # Constructing h_board
-        h_row = []
-        h_board = []
-        for i in range(board_size - 1):
-            h_row.append("")
-        for j in range(board_size):
-            h_board.append(h_row.copy())
-
-        # Constructing v_board
-        v_row = []
-        v_board = []
-        for i in range(board_size):
-            v_row.append("")
-        for j in range(board_size - 1):
-            v_board.append(v_row.copy())
-
-        board = [h_board, v_board]
-        return board
 
     # TODO: Check if the move being written is valid
     # Input: Two tuples representing the line to be played

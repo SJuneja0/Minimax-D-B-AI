@@ -14,10 +14,10 @@ class saucy_boy:
     def __init__(self, opponent):
         self.bd = board.Board(10, 10, "SaucyBoy")
         self.bd.create_board()
-        self.queue = queue()  # TODO MAKE QUEUE CLASS
-        self.tree = treeNode.treeNode()  # TODO make tree node
+        self.queue = queue()
+        self.tree = treeNode.treeNode()
         self.name = "SaucyBoy"
-        self.opponent = opponent # possibly change
+        self.opponent = None  # TODO update this in main loop
 
     # Input: Array of the current board-state and the time limit for the AI
     # Output: Null
@@ -27,10 +27,10 @@ class saucy_boy:
         best_move = None
         root_node = treeNode.treeNode(current_board, [], None, True)
         depth = 0
-        while(start_timer + time_limit >= time.perf_counter):
+        while start_timer + time_limit >= time.perf_counter:
             depth += 2
             stree = self.generate_search_tree(root_node, depth, True)
-            best_final_node = self.mini_max(stree, True, -9999, 9999, None)
+            best_final_node = self.mini_max(stree, True, -9999, 9999, None) # TODO: check initial values of alpha and beta
             best_path = best_final_node.construct_path([])
             best_move = best_path[-2]
         return best_move
@@ -54,21 +54,14 @@ class saucy_boy:
     # Purpose: Given a board state, this finds all children states (next possible moves)
     def generate_possible_moves(self, curr_board, name):
         valid_child_boards = []
-        for line in self.bd.edges:
-            if line.equals(None):
-                valid_child_boards.append(line)
+        for line in curr_board.edges:
+            if line.owner.equals(None):
+                copy_board = curr_board.copy()
+                i = curr_board.index(line)
+                edge = copy_board.edges[i]   # TODO could be problem in indexing line
+                edge.owner = name
+                valid_child_boards.append(copy_board)
 
-        # for i in len(board):
-        #     direction = curr_board[i]
-        #     for j in len(direction):
-        #         row = direction[j]
-        #         for k in len(row):
-        #             line = row[k]
-        #             if line == "":
-        #                 new_valid_board = curr_board.copy()
-        #                 new_valid_board[i][j][k] = name
-        #                 valid_child_boards.append(new_valid_board)  # may need to be new_valid_board.copy
-        # generate all possible horizontal lines and save them as new boards
         return valid_child_boards
 
     """Search Method"""
