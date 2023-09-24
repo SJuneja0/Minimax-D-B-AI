@@ -37,6 +37,7 @@ class Board:
         self.edges = []
         self.dots = []
         self.box = []
+        self.valid = True
         self.owner = owner
         self.opponent = opponent
         self.completed_boxes = []
@@ -51,7 +52,6 @@ class Board:
     # Output: Null
     # Purpose: Updates the boxes and lines and the owners on the board
     def update_board(self):
-        valid = False
         move_file = open("move_file", "r")
         text_move_file = move_file.read()
         move = text_move_file.split()
@@ -61,7 +61,9 @@ class Board:
         i = self.edges.index(curr_edge)
         edge = self.edges[i]
         if curr_edge in self.edges and edge.owner.equals(None): # TODO: curr_edges may not be in self.edges, even if they are the same
-            valid = True
+            pass
+        else:
+            return curr_edge
         owner = move[0]
 
         # Update edge ownership based on the move
@@ -86,7 +88,7 @@ class Board:
                 if count == 4 and this_box:
                     box.owner = owner
 
-        return  valid
+        return True
     # Input: Null
     # Output: Null
     # Purpose: to create the wanted board
