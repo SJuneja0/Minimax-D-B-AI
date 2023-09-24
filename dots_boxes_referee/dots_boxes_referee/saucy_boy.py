@@ -22,8 +22,10 @@ class saucy_boy:
 
     def main(self):
         # DO INITIALIZATION HERE
+
+
         # TODO: adjust for if opponents or we get a point/take another turn
-        while (not self.bd.is_game_over()):
+        while not self.bd.is_game_over():
             if self.coms.is_our_turn():
                 self.bd.update_board()
                 best_move_board = self.decide_move(self.bd) # best move is board that is one level below the curr root board
@@ -31,6 +33,9 @@ class saucy_boy:
                 # seperate move should take in the current board and a one-move completed board
                 # and spit out an edge
                 self.coms.write_move(best_move.dot1, best_move.dot2)
+                self.bd.update_board()
+        # DO GAME TERMINATION HERE
+
         pass
 
     # Input: Array of the current board-state and the time limit for the AI
