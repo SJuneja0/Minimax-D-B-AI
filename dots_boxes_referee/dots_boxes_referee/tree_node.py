@@ -1,6 +1,8 @@
+import board
+
 class treeNode:
 
-    def __init__(self, board, children, came_from, utility_value, value_range, isRootNode):
+    def __init__(self, board, children, came_from, isRootNode):
         self.board = board
         self.children = children  # array [treeNode...]
         self.came_from = came_from  # treeNode
