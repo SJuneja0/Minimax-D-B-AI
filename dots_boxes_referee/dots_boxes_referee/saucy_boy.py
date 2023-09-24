@@ -51,21 +51,21 @@ class saucy_boy:
             stree = self.generate_search_tree(root_node, depth, True)
             best_final_node = self.mini_max(stree, True, -9999, 9999, None) # TODO: check initial values of alpha and beta
             best_path = best_final_node.construct_path([])
-            best_move = best_path[-2] #TODO: allow this to handle taking multiple moves in a row
+            best_move = best_path[-2]
 
         return best_move.board
 
-    # Input: Two tuples (representing the points for a potential move)
-    # Input: Array of the current board-state
-    # Output: Boolean (true if the move suggested is valid)
-    # Purpose: To check if a given move is valid
-    def valid_move(self, rowNum, colNum, isVertical, board):
-        bd = board()
-        if rowNum >= len(board[0]) or rowNum < 0 or colNum >= len(board[0][0]) or colNum < 0:
-            return False
-        elif bd.isTaken(rowNum, colNum, isVertical, board):
-            return False
-        return True
+    # # Input: Two tuples (representing the points for a potential move)
+    # # Input: Array of the current board-state
+    # # Output: Boolean (true if the move suggested is valid)
+    # # Purpose: To check if a given move is valid
+    # def valid_move(self, rowNum, colNum, isVertical, board):
+    #     bd = board()
+    #     if rowNum >= len(board[0]) or rowNum < 0 or colNum >= len(board[0][0]) or colNum < 0:
+    #         return False
+    #     elif bd.isTaken(rowNum, colNum, isVertical, board):
+    #         return False
+    #     return True
 
     # TODO: REWRITE THIS TO WORK WITH THE TREE_NODE CLASS, INPUT IS NOW A TREE NODE
     # Input: Board
