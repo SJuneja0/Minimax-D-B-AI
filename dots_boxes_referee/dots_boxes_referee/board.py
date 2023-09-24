@@ -1,25 +1,33 @@
 import communicator
 
-
+# Input: A row and column
+# Output: null
+# Purpose: To create a dot class that contains the row and column
 class Dot:
     def __init__(self, row, column):
         self.row = row
         self.column = column
 
-
+# Input: two Dot class dots
+# Output: Creates an edge/line
+# Purpose: to create all lines and their dots in the board, and who owns the line
 class Edge:
     def __init__(self, dot1, dot2):
         self.dot1 = dot1
         self.dot2 = dot2
         self.owner = None  # string
 
-
+# Input: the 4 dots in an array
+# Output: creates a box with the 4 lines
+# Purpose: to go through the boxes based on edges
 class Box:
     def __init__(self, dots):
         self.dots = dots
         self.owner = None  # string
 
-
+# Input: row, column, owner, and opponent
+# Output: reads from the board
+# Purpose: to create our own board to look through appropriately
 class Board:
     def __init__(self, row, column, owner, opponent):
         self.row = row
@@ -31,9 +39,9 @@ class Board:
         self.opponent = opponent
         self.completed_boxes = []
 
-    # Input:
-    # Output:
-    # Purpose:
+    # Input: Null
+    # Output: Null
+    # Purpose: Updates the boxes and lines and the owners on the board
     def update_board(self):
         move_file = open("move_file", "r")
         text_move_file = move_file.read()
@@ -62,6 +70,9 @@ class Board:
                 if count == 4 and this_box:
                     box.owner = owner
 
+    # Input: Null
+    # Output: Null
+    # Purpose: to create the wanted board
     def create_board(self):
         for x in range(self.row + 1):
             for y in range(self.column + 1):
@@ -89,6 +100,9 @@ class Board:
 
         #self.update_board(self)
 
+    # Input:
+    # Output:
+    # Purpose:
     def edges_controlled_by(self, player):
         controlled_edges = []
         for edge in self.edges:

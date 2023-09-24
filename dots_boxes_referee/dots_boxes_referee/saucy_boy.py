@@ -13,7 +13,7 @@ class saucy_boy:
 
     def __init__(self, opponent):
         self.bd = board.Board(10, 10, "SaucyBoy")
-        self.our_board = self.bd.create_board()
+        self.bd.create_board()
         self.queue = queue()  # TODO MAKE QUEUE CLASS
         self.tree = treeNode.treeNode()  # TODO make tree node
         self.name = "SaucyBoy"
@@ -54,16 +54,20 @@ class saucy_boy:
     # Purpose: Given a board state, this finds all children states (next possible moves)
     def generate_possible_moves(self, curr_board, name):
         valid_child_boards = []
-        for i in len(board):
-            direction = curr_board[i]
-            for j in len(direction):
-                row = direction[j]
-                for k in len(row):
-                    line = row[k]
-                    if line == "":
-                        new_valid_board = curr_board.copy()
-                        new_valid_board[i][j][k] = name
-                        valid_child_boards.append(new_valid_board)  # may need to be new_valid_board.copy
+        for line in self.bd.edges:
+            if line.equals(None):
+                valid_child_boards.append(line)
+
+        # for i in len(board):
+        #     direction = curr_board[i]
+        #     for j in len(direction):
+        #         row = direction[j]
+        #         for k in len(row):
+        #             line = row[k]
+        #             if line == "":
+        #                 new_valid_board = curr_board.copy()
+        #                 new_valid_board[i][j][k] = name
+        #                 valid_child_boards.append(new_valid_board)  # may need to be new_valid_board.copy
         # generate all possible horizontal lines and save them as new boards
         return valid_child_boards
 
