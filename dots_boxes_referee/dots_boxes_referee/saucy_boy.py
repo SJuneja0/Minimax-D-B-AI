@@ -26,8 +26,14 @@ class saucy_boy:
         start_timer = time.perf_counter()
         best_move = None
         root_node = treeNode.treeNode(current_board, [], None, True)
+        depth = 0
         while(start_timer + time_limit >= time.perf_counter):
-            self.generate_search_tree()
+            depth += 2
+            stree = self.generate_search_tree(root_node, depth, True)
+            best_final_node = self.mini_max(stree, True, -9999, 9999, None)
+            best_path = best_final_node.construct_path([])
+            best_move = best_path[-2]
+        return best_move
 
     # Input: Two tuples (representing the points for a potential move)
     # Input: Array of the current board-state
