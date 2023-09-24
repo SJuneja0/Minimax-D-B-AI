@@ -1,5 +1,3 @@
-import board
-
 class treeNode:
 
     def __init__(self, board, children, came_from, isRootNode):

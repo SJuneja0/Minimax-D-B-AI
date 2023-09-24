@@ -7,7 +7,6 @@ class communicator:
     def __init__(self, name):
         self.name = name
 
-    # TODO: Check if the move being written is valid
     # Input: Two dots that make the edge/line
     # Output: Null
     # Purpose: Writes a new move_file to send the move to the referee
