@@ -118,7 +118,15 @@ class saucy_boy:
                 name = self.name
             else:
                 name = self.opponent
+
+            # generate the child boards, make a tree node for each, and append it to the curr_node's children
             children_boards = self.generate_possible_moves(curr_tree_Node.board, name)
+            empty_child_node = treeNode.treeNode(None, [], curr_tree_Node, False)
+            for child_board in children_boards:
+                child_node = empty_child_node.copy()
+                child_node.board = child_board
+                curr_tree_Node.children.append(child_node)
+
             curr_tree_Node.children = self.generate_possible_moves(curr_tree_Node, name)
 
         # for each child of this node, generate the children's children (recursively),
