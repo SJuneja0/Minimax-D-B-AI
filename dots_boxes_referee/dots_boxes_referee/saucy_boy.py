@@ -18,19 +18,24 @@ class saucy_boy:
 
     def main(self):
         # TODO: adjust for if opponents or we get a point/take another turn
+        isWeWin = True
         while not self.bd.is_game_over():
             if self.coms.is_our_turn():
-                if self.bd.update_board():
+                isValid = self.bd.update_board()
+                if not (type(isValid) == board.Edge):
                     best_move_board = self.decide_move(self.bd)  # best move is board that is one level below the curr root board
                     best_move = self.seperate_move(best_move_board)
                     self.coms.write_move(best_move.dot1, best_move.dot2)
                     self.bd.update_board()
                 else:
+                    # report invalid move
                     break
         # DO GAME TERMINATION HERE
 
         pass
 
+
+    not type(valid) == Edge
     # Input: Array of the current board-state and the time limit for the AI
     # Output: Null
     # Purpose: Decides the optimal move and publishes it to the referee, this is the main function
