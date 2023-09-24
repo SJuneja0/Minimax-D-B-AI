@@ -8,7 +8,7 @@ class communicator:
         self.name = name
 
     # TODO: Check if the move being written is valid
-    # Input: Two tuples representing the line to be played
+    # Input: Two dots that make the edge/line
     # Output: Null
     # Purpose: Writes a new move_file to send the move to the referee
     def write_move(self, point1, point2):
@@ -17,8 +17,8 @@ class communicator:
             move_file.truncate()
             print("WRITE_MOVE: Our Turn")
             move_file = open("move_file", "a")
-            point1_to_string = str(point1[0]) + "," + str(point1[1])
-            point2_to_string = str(point2[0]) + "," + str(point2[1])
+            point1_to_string = str(point1.row) + "," + str(point1.column)
+            point2_to_string = str(point2.row) + "," + str(point2.column)
             move_file.write(self.name + " " + point1_to_string + " " + point2_to_string + "\n")
         else:
             print("WRITE_MOVE: Not our turn")

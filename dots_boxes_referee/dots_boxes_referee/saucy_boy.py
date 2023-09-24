@@ -29,7 +29,7 @@ class saucy_boy:
             if self.coms.is_our_turn():
                 self.bd.update_board()
                 best_move_board = self.decide_move(self.bd) # best move is board that is one level below the curr root board
-                best_move = self.seperate_move(self.bd, best_move_board) # TODO:
+                best_move = self.seperate_move(best_move_board) # TODO:
                 # seperate move should take in the current board and a one-move completed board
                 # and spit out an edge
                 self.coms.write_move(best_move.dot1, best_move.dot2)
@@ -55,17 +55,21 @@ class saucy_boy:
 
         return best_move.board
 
+    def separate_move(self, new_board):
+        for i in range(len(new_board.edges)):
+            if not new_board.edges[i].equals(self.bd.edges[i]):
+                return new_board.edges[i]
+        pass
+
     # Input: Two tuples (representing the points for a potential move)
     # Input: Array of the current board-state
     # Output: Boolean (true if the move suggested is valid)
     # Purpose: To check if a given move is valid
-    def valid_move(self, rowNum, colNum, isVertical, board):
-        bd = board()
-        if rowNum >= len(board[0]) or rowNum < 0 or colNum >= len(board[0][0]) or colNum < 0:
+    def valid_move(self, edge):
+        if edge in self.bd.edges & edge.owner.equals(None):
+            return True
+        else:
             return False
-        elif bd.isTaken(rowNum, colNum, isVertical, board):
-            return False
-        return True
 
     # TODO: REWRITE THIS TO WORK WITH THE TREE_NODE CLASS, INPUT IS NOW A TREE NODE
     # Input: Board
