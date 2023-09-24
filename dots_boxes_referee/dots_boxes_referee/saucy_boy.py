@@ -129,7 +129,6 @@ class saucy_boy:
             for child in curr_tree_Node.children:
                 self.generate_search_tree(child, depth-1, (not isOurTurn))
 
-
         # if this node the function is inspecting is the first one, return it now that it is filled up
         if curr_tree_Node.isStarting:
             return curr_tree_Node
