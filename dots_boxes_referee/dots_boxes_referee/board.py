@@ -34,33 +34,30 @@ class Board:
     # Input:
     # Output:
     # Purpose:
-    def update_board(self, owner):
+    def update_board(self):
         move_file = open("move_file", "r")
         text_move_file = move_file.read()
         move = text_move_file.split()
-        move_file = open("move_file", "a")
         dot1 = Dot(move[1][0], move[1][1])
         dot2 = Dot(move[2][0], move[2][1])
+        owner = move[0]
         for edge in self.edges:
-            if edge.dot1 == dot1 & edge.dot2 == dot2:
+            if edge.dot1.equals(dot1) & edge.dot2.equals(dot2):
                 edge.owner = owner
 
         for box in self.box:
-            if box.owner == None:
+            if box.owner is None:
                 count = 0
                 this_box = False
                 for i in range(4):
                     edge = box.dots[i]
-                    if edge.owner != None:
+                    if edge.owner is not None:
                         count += 1
-                        if edge.dot1 == dot1 & edge.dot2 == dot2:
+                        if edge.dot1.equals(dot1) & edge.dot2.equals(dot2):
                             edge.owner = owner
                             this_box = True
                         if count >= 4 & this_box:
                             box.owner = owner
-
-
-        pass
 
     def create_board(self):
         for x in range(self.row + 1):
@@ -122,7 +119,7 @@ class Board:
         # orientation
         neighbors = [[], [], [], [], [], [], [], []]
         if isVertical:
-            verNum = 1  # TODO changed verNum
+            verNum = 1
             notVer = 0
         else:
             verNum = 0

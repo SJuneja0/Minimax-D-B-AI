@@ -34,6 +34,8 @@ class communicator:
     # Purpose: Writes a new move_file to send the move to the referee
     def write_move(self, point1, point2):
         if self.is_our_turn():
+            move_file = open("move_file", "r+")
+            move_file.truncate()
             print("WRITE_MOVE: Our Turn")
             move_file = open("move_file", "a")
             point1_to_string = str(point1[0]) + "," + str(point1[1])
