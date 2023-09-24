@@ -35,9 +35,7 @@ class communicator:
         else:
             print("WRITE_FALSE_MOVE: Not our Turn")
 
-
     """FUNCTIONS"""
-
 
     # Input: Null
     # Output: Boolean (true if our turn, false if opponent's turn)
@@ -53,8 +51,9 @@ class communicator:
     def report_invalid_move(self, invalid_move):
         pass
 
+
 """TEST CODE"""
-#COM = communicator("GG", 4)
-#COM.read_board()
+# COM = communicator("GG", 4)
+# COM.read_board()
 # COM.write_move((2, 2), (2, 3))
 # COM.is_our_turn()

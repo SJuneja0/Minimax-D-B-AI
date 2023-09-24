@@ -14,6 +14,3 @@ class treeNode:
             path.append(self) # Add it to the path discovered
             self.came_from.construct_path(path) # And repeat this process with the parent
         return path # When the root node is reached, return the path to the root node
-
-    def isGameOver(self):
-        return True
