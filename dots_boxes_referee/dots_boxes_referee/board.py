@@ -38,26 +38,29 @@ class Board:
         move_file = open("move_file", "r")
         text_move_file = move_file.read()
         move = text_move_file.split()
-        dot1 = Dot(move[1][0], move[1][1])
-        dot2 = Dot(move[2][0], move[2][1])
+        dot1 = Dot(int(move[1][0]), int(move[1][1]))  # Convert to integers
+        dot2 = Dot(int(move[2][0]), int(move[2][1]))  # Convert to integers
         owner = move[0]
+
+        # Update edge ownership based on the move
         for edge in self.edges:
-            if edge.dot1.equals(dot1) & edge.dot2.equals(dot2):
+            if (edge.dot1.equals(dot1) and edge.dot2.equals(dot2)) or (edge.dot1.equals(dot2) and edge.dot2.equals(dot1)):
                 edge.owner = owner
 
+        # Check and update box ownership
         for box in self.box:
             if box.owner is None:
                 count = 0
                 this_box = False
                 for i in range(4):
                     edge = box.dots[i]
-                    if edge.owner is not None:
+                    if edge.owner == owner:
                         count += 1
-                        if edge.dot1.equals(dot1) & edge.dot2.equals(dot2):
-                            edge.owner = owner
+                    if edge.owner is not None:
+                        if (edge.dot1.equals(dot1) and edge.dot2.equals(dot2)) or (edge.dot1.equals(dot2) and edge.dot2.equals(dot1)):
                             this_box = True
-                        if count >= 4 & this_box:
-                            box.owner = owner
+                if count == 4 and this_box:
+                    box.owner = owner
 
     def create_board(self):
         for x in range(self.row + 1):
@@ -69,21 +72,22 @@ class Board:
                 edge = Edge(self.dots[y + x * (self.column + 1)], self.dots[y + (x + 1) * (self.column + 1)])
                 self.edges.append(edge)
 
-        for x in range(self.row):
+        for x in range(self.row + 1):
             for y in range(self.column):
-                edge = Edge(self.dots[y + x * (self.column + 1)], self.dots[y + (x + 1) * (self.column + 1)])
+                edge = Edge(self.dots[y + x * (self.column + 1)], self.dots[y + x * (self.column + 1) + 1])
                 self.edges.append(edge)
 
         for x in range(self.row):
             for y in range(self.column):
-                top_edge = self.edges[y + x * self.column]
-                right_edge = self.edges[y + (x + 1) * self.column + (self.row + 1) * self.column]
-                bottom_edge = self.edges[y + (x + 1) * self.column + (self.row + 1) * self.column + self.column]
-                left_edge = self.edges[y + x * self.column + self.row + 1]
+                top_edge = self.edges[y + x * (self.column + 1)]
+                right_edge = self.edges[y + (x + 1) * (self.column + 1) + (self.row + 1)]
+                bottom_edge = self.edges[y + (x + 1) * (self.column + 1) + (self.row + 1) + self.column]
+                left_edge = self.edges[y + x * (self.column + 1) + self.row + 1]
 
                 curr_box = Box([top_edge, right_edge, bottom_edge, left_edge])
                 self.box.append(curr_box)
-        self.update_board(self)
+
+        #self.update_board(self)
 
     def edges_controlled_by(self, player):
         controlled_edges = []
@@ -107,13 +111,14 @@ class Board:
     def new_box_completed(self):
         prev_box_count = len(self.completed_boxes)
         self.box_check()
-        if(prev_box_count < len(self.completed_boxes)):
+        if prev_box_count < len(self.completed_boxes):
             return True
         return False
 
     def is_game_over(self):
         return not any(edge.owner is None for edge in self.edges)
 
+#unused
     def getNeighbors(self, rowNum, colNum, isVertical, board):
         # neighbors is an array of 8 strings denoted as "[vertical indicator (0 or 1)]-[row number]-[col number]-[
         # Owner]" 0 is above, 1 is right, 2 is below, and 3 is left, and 4-7 are identical, except for opposing
@@ -139,6 +144,7 @@ class Board:
             neighbors[5] = [notVer, rowNum, (colNum + 1), board[notVer][rowNum][colNum + 1]]
         return neighbors
 
+#unused
     def lineOwner(self, rowNum, colNum, isVertical, board):
         if isVertical:
             verNum = 1
@@ -159,27 +165,5 @@ class Board:
 if __name__ == "__main__":
     game_board = Board(9, 9, "SaucyBoy", "Enemy")
     print(game_board.create_board())
-
-    # def boxes(self):
-    #     box = []
-    #     coms = communicator.communicator("GG")
-    #     board_read = coms.read_board()
-    #     count = 0
-    #
-    #     for i in range(((len(board_read[1][1]) % 2) * (len(board_read[0][1]) % 2)) - 1):
-    #         # add the lines
-    #         print(len(board_read[1][1]))
-    #         dot = self.dots() #how to
-    #         horizontals = board_read[0][count]
-    #         horizontals.append(board_read[0][count + len(board_read[0][1][1])])
-    #
-    #         verticals = board_read[1][count]
-    #         print(1)
-    #         verticals.append(board_read[1][count + len(board_read[1][1][1])])
-    #         box[count].append(horizontals, verticals)
-    #
-    #         count += 1
-    #
-    #     return box
 
 # print(board_ish.boxes())

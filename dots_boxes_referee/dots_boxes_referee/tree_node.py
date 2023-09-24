@@ -1,10 +1,10 @@
 class treeNode:
 
-    def __init__(self, board, children, came_from, utility_value, value_range, isStarting):
+    def __init__(self, board, children, came_from, utility_value, value_range, isRootNode):
         self.board = board
         self.children = children  # array [treeNode...]
         self.came_from = came_from  # treeNode
-        self.isStarting = isStarting  # is root node
+        self.isRootNode = isRootNode  # is root node
 
     # Input:
     # Output:
