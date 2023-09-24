@@ -1,7 +1,4 @@
-import queue
 import tree_node as treeNode
-
-import referee
 import communicator
 import board
 import time
@@ -14,7 +11,6 @@ class saucy_boy:
     def __init__(self, opponent):
         self.bd = board.Board(9, 9, "SaucyBoy")
         self.bd.create_board()
-        self.queue = queue()
         self.tree = treeNode.treeNode()
         self.name = "SaucyBoy"
         self.opponent = None  # TODO update this in main loop
@@ -23,12 +19,12 @@ class saucy_boy:
     def main(self):
         # DO INITIALIZATION HERE
 
-
         # TODO: adjust for if opponents or we get a point/take another turn
         while not self.bd.is_game_over():
             if self.coms.is_our_turn():
                 self.bd.update_board()
-                best_move_board = self.decide_move(self.bd) # best move is board that is one level below the curr root board
+                best_move_board = self.decide_move(
+                    self.bd)  # best move is board that is one level below the curr root board
                 best_move = self.seperate_move(best_move_board)
                 self.coms.write_move(best_move.dot1, best_move.dot2)
                 self.bd.update_board()
@@ -47,11 +43,13 @@ class saucy_boy:
         while start_timer + time_limit >= time.perf_counter:
             depth += 2
             stree = self.generate_search_tree(root_node, depth, True)
-            best_final_node = self.mini_max(stree, True, -9999, 9999, None) # TODO: check initial values of alpha and beta
+            best_final_node = self.mini_max(stree, True, -9999, 9999,
+                                            None)  # TODO: check initial values of alpha and beta
             best_path = best_final_node.construct_path([])
             best_move = best_path[-2]
 
         return best_move.board
+
     def separate_move(self, new_board):
         for i in range(len(new_board.edges)):
             if not new_board.edges[i].equals(self.bd.edges[i]):
@@ -79,7 +77,7 @@ class saucy_boy:
             if line.owner.equals(None):
                 copy_board = curr_board.copy()
                 i = curr_board.index(line)
-                edge = copy_board.edges[i]   # TODO could be problem in indexing line
+                edge = copy_board.edges[i]  # TODO could be problem in indexing line
                 edge.owner = name
                 valid_child_boards.append(copy_board)
 
@@ -90,16 +88,16 @@ class saucy_boy:
     # Input: Array of the current board-state
     # Output: A path of the optimal move
     # Purpose: To decide the optimal move given a search tree
-    def mini_max(self, treeNode, isMaximizing, alpha, beta, bestFinalPosition):
+    def mini_max(self, tree_Node, isMaximizing, alpha, beta, bestFinalPosition):
         # if the game would be over or if this is the bottom node so far (i.e., this position has no children)
         # generate the value of this node based on the utility function
-        if not treeNode.children:
-            return self.utility_fcn(treeNode.board, self.name, self.opponent)
+        if not tree_Node.children:
+            return self.utility_fcn(tree_Node.board, self.name, self.opponent)
 
         # if this node is maximizing (our turn to pick)
         if isMaximizing:
             maxValue = -9999  # set the current maxValue to -infinity
-            for child in treeNode.children:  # look through children for the greatest value among them
+            for child in tree_Node.children:  # look through children for the greatest value among them
                 value = self.mini_max(child, False, alpha, beta, bestFinalPosition)  # look through children's children
                 if value > maxValue:
                     maxValue = value
@@ -110,14 +108,14 @@ class saucy_boy:
                 if beta <= alpha:
                     break
             # if this is the starting node, and it's done looking through its children, return the best bottom child
-            if treeNode.isRootNode:
+            if tree_Node.isRootNode:
                 return bestFinalPosition
             return maxValue
 
         # else if the node is minimizing (opponent's turn to pick)
         else:
             minValue = 9999  # set current min value to infinity
-            for child in treeNode.children:  # look through children for the greatest value among them
+            for child in tree_Node.children:  # look through children for the greatest value among them
                 value = self.mini_max(child, True, alpha, beta, bestFinalPosition)  # look through children's children
                 if value < minValue:
                     minValue = value
@@ -152,7 +150,7 @@ class saucy_boy:
                 if len(best_children) <= 3:
                     curr_tree_Node.children.append(child_node)
                 else:
-                    self.h_sort(curr_tree_Node.children)
+                    self.h_sort(curr_tree_Node.children)  # TODO: need to make an h_sort
                     curr_child_value = self.utility_fcn(child_node.board, self.name, self.opponent)
                     worst_child_value = self.utility_fcn(curr_tree_Node.children[-1].board, self.name, self.opponent)
                     if curr_child_value > worst_child_value:
@@ -164,12 +162,12 @@ class saucy_boy:
         # all editing the original treeNode
         # if there is a new square (one more then the previous boardstate), the player gets another turn
         if not curr_tree_Node.isRootNode:
-            if len(curr_tree_Node.came_from.board.completed_boxes()) < curr_tree_Node.board.completed_boxes(): # if new square
+            if len(curr_tree_Node.came_from.board.completed_boxes()) < curr_tree_Node.board.completed_boxes():  # if new square
                 for child in curr_tree_Node.children:
-                    self.generate_search_tree(child, depth-1, isOurTurn)
+                    self.generate_search_tree(child, depth - 1, isOurTurn)
             else:
                 for child in curr_tree_Node.children:
-                    self.generate_search_tree(child, depth-1, (not isOurTurn))
+                    self.generate_search_tree(child, depth - 1, (not isOurTurn))
 
         # if this node the function is inspecting is the first one, return it now that it is filled up
         if curr_tree_Node.isRootNode:
