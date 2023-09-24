@@ -61,12 +61,6 @@ class saucy_boy:
         # generate all possible horizontal lines and save them as new boards
         return valid_child_boards
 
-    # Input: Int of how long to run the timer
-    # Output: Boolean (true when timer runs out)
-    # Purpose: To tell how long a certain time has passed
-    def timer(self, time_limit):  # moved to decide_move
-        pass
-
     """Search Method"""
 
     # Input: Array of the current board-state
@@ -121,6 +115,7 @@ class saucy_boy:
                 name = self.name
             else:
                 name = self.opponent
+            children_boards = self.generate_possible_moves(curr_tree_Node.board, name)
             curr_tree_Node.children = self.generate_possible_moves(curr_tree_Node, name)
 
         # for each child of this node, generate the children's children (recursively),
