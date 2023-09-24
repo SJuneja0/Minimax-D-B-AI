@@ -1,3 +1,4 @@
+
 # Input: A row and column
 # Output: null
 # Purpose: To create a dot class that contains the row and column
@@ -40,15 +41,27 @@ class Board:
         self.opponent = opponent
         self.completed_boxes = []
 
+    def valid_move(self, edge):
+        if edge in self.edges & edge.owner.equals(None):
+            return True
+        else:
+            return False
+
     # Input: Null
     # Output: Null
     # Purpose: Updates the boxes and lines and the owners on the board
     def update_board(self):
+        valid = False
         move_file = open("move_file", "r")
         text_move_file = move_file.read()
         move = text_move_file.split()
         dot1 = Dot(int(move[1][0]), int(move[1][1]))  # Convert to integers
         dot2 = Dot(int(move[2][0]), int(move[2][1]))  # Convert to integers
+        curr_edge = Edge(dot1, dot2)
+        i = self.edges.index(curr_edge)
+        edge = self.edges[i]
+        if curr_edge in self.edges and edge.owner.equals(None): # TODO: curr_edges may not be in self.edges, even if they are the same
+            valid = True
         owner = move[0]
 
         # Update edge ownership based on the move
@@ -73,6 +86,7 @@ class Board:
                 if count == 4 and this_box:
                     box.owner = owner
 
+        return  valid
     # Input: Null
     # Output: Null
     # Purpose: to create the wanted board
