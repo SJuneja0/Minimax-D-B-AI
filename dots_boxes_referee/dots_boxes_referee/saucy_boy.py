@@ -29,9 +29,7 @@ class saucy_boy:
             if self.coms.is_our_turn():
                 self.bd.update_board()
                 best_move_board = self.decide_move(self.bd) # best move is board that is one level below the curr root board
-                best_move = self.seperate_move(best_move_board) # TODO:
-                # seperate move should take in the current board and a one-move completed board
-                # and spit out an edge
+                best_move = self.seperate_move(best_move_board)
                 self.coms.write_move(best_move.dot1, best_move.dot2)
                 self.bd.update_board()
         # DO GAME TERMINATION HERE
@@ -145,10 +143,20 @@ class saucy_boy:
             # generate the child boards, make a tree node for each, and append it to the curr_node's children
             children_boards = self.generate_possible_moves(curr_tree_Node.board, name)
             empty_child_node = treeNode.treeNode(None, [], curr_tree_Node, False)
+            best_children = []
+            children_values = []
             for child_board in children_boards:
                 child_node = empty_child_node.copy()
                 child_node.board = child_board
-                curr_tree_Node.children.append(child_node)
+
+                if len(best_children) <= 3:
+                    curr_tree_Node.children.append(child_node)
+                else:
+                    self.h_sort(curr_tree_Node.children)
+                    curr_child_value = self.utility_fcn(child_node.board, self.name, self.opponent)
+                    worst_child_value = self.utility_fcn(curr_tree_Node.children[-1].board, self.name, self.opponent)
+                    if curr_child_value > worst_child_value:
+                        curr_tree_Node.children[-1] = child_node
 
             curr_tree_Node.children = self.generate_possible_moves(curr_tree_Node, name)
 
