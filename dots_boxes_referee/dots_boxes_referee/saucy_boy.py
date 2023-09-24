@@ -26,10 +26,11 @@ class saucy_boy:
                 new_box_taken = len(self.bd.completed_boxes)
                 if not curr_boxes_taken == new_box_taken:
                     # write false move and pass back board
-                    self.bd.write_false_move()  # TODO: make this function handle false moves/opponent's turns
+                    self.coms.write_false_move()  # TODO: make this function handle false moves/opponent's turns
                     pass
                 elif type(isValid) == board.Edge:
                     self.coms.report_invalid_move(isValid)  # TODO: make this function handle inValid moves
+                    # ^^^^^^^^^^^^^^^ BRANDON, CODE THIS SKELETON FUNCTION, ITS IN COMMUNICATION ^^^^^^^^^^^^^^^^^^^^^^^
                     break
                 else:
                     best_move_board = self.decide_move(self.bd)  # best move is board that is one level below the curr root board

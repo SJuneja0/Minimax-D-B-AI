@@ -1,4 +1,3 @@
-
 # Input: A row and column
 # Output: null
 # Purpose: To create a dot class that contains the row and column
@@ -60,8 +59,9 @@ class Board:
         curr_edge = Edge(dot1, dot2)
         i = self.edges.index(curr_edge)
         edge = self.edges[i]
-        if curr_edge in self.edges and edge.owner.equals(None): # TODO: curr_edges may not be in self.edges, even if they are the same
-            pass
+        if curr_edge in self.edges and edge.owner.equals(
+                None):  # TODO: curr_edges may not be in self.edges, even if they are the same
+            pass  # TODO: ALSO NEED TO REPORT EDGES THAT ARE NOT ON THE BOARD or edges that are too long or diagonals
         else:
             return curr_edge
         owner = move[0]
@@ -87,8 +87,8 @@ class Board:
                             this_box = True
                 if count == 4 and this_box:
                     box.owner = owner
-
         return True
+
     # Input: Null
     # Output: Null
     # Purpose: to create the wanted board
@@ -150,6 +150,7 @@ class Board:
 
     def is_game_over(self):
         return not any(edge.owner is None for edge in self.edges)
+
     #
     # # unused
     # def getNeighbors(self, rowNum, colNum, isVertical, board):
@@ -193,7 +194,6 @@ class Board:
     #     if board[verNum][rowNum][colNum] != "":
     #         return True
     #     return False
-
 
 # if __name__ == "__main__":
 #     game_board = Board(9, 9, "SaucyBoy", "Enemy")
