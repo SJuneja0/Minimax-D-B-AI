@@ -74,7 +74,7 @@ class saucy_boy:
 
         # if this node is maximizing (our turn to pick)
         if isMaximizing:
-            maxValue = -999  # set the current maxValue to -infinity
+            maxValue = -9999  # set the current maxValue to -infinity
             for child in treeNode.children:  # look through children for the greatest value among them
                 value = self.mini_max(child, False, alpha, beta, bestFinalPosition)  # look through children's children
                 if value > maxValue:
@@ -92,7 +92,7 @@ class saucy_boy:
 
         # else if the node is minimizing (opponent's turn to pick)
         else:
-            minValue = 999  # set current min value to infinity
+            minValue = 9999  # set current min value to infinity
             for child in treeNode.children:  # look through children for the greatest value among them
                 value = self.mini_max(child, True, alpha, beta, bestFinalPosition)  # look through children's children
                 if value < minValue:
