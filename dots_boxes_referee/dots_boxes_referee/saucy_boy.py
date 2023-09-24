@@ -12,17 +12,31 @@ import time
 class saucy_boy:
 
     def __init__(self, opponent):
-        self.bd = board.Board(10, 10, "SaucyBoy")
+        self.bd = board.Board(9, 9, "SaucyBoy")
         self.bd.create_board()
         self.queue = queue()
         self.tree = treeNode.treeNode()
         self.name = "SaucyBoy"
         self.opponent = None  # TODO update this in main loop
+        self.coms = communicator.communicator(self.name)
+
+    def main(self):
+        # DO INITIALIZATION HERE
+
+        # TODO: adjust for if opponents or we get a point/take another turn
+        while (not self.bd.is_game_over()):
+            if self.coms.is_our_turn():
+                self.bd.update_board()
+                best_moves_array = self.decide_move(self.bd)
+                for board in best_moves_array:
+                    self.find_move()
+
+        pass
 
     # Input: Array of the current board-state and the time limit for the AI
     # Output: Null
     # Purpose: Decides the optimal move and publishes it to the referee, this is the main function
-    def decide_move(self, current_board, time_limit):
+    def decide_move(self, current_board, time_limit=10):
         start_timer = time.perf_counter()
         best_move = None
         root_node = treeNode.treeNode(current_board, [], None, True)
@@ -32,7 +46,8 @@ class saucy_boy:
             stree = self.generate_search_tree(root_node, depth, True)
             best_final_node = self.mini_max(stree, True, -9999, 9999, None) # TODO: check initial values of alpha and beta
             best_path = best_final_node.construct_path([])
-            best_move = best_path[-2]
+            best_move = best_path[-2] #TODO: allow this to handle taking multiple moves in a row
+
         return best_move
 
     # Input: Two tuples (representing the points for a potential move)
