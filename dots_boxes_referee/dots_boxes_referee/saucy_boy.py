@@ -22,15 +22,15 @@ class saucy_boy:
 
     def main(self):
         # DO INITIALIZATION HERE
-
         # TODO: adjust for if opponents or we get a point/take another turn
         while (not self.bd.is_game_over()):
             if self.coms.is_our_turn():
                 self.bd.update_board()
-                best_moves_array = self.decide_move(self.bd)
-                for board in best_moves_array:
-                    self.find_move()
-
+                best_move_board = self.decide_move(self.bd) # best move is board that is one level below the curr root board
+                best_move = self.seperate_move(self.bd, best_move_board) # TODO:
+                # seperate move should take in the current board and a one-move completed board
+                # and spit out an edge
+                self.coms.write_move(best_move.dot1, best_move.dot2)
         pass
 
     # Input: Array of the current board-state and the time limit for the AI
@@ -48,7 +48,7 @@ class saucy_boy:
             best_path = best_final_node.construct_path([])
             best_move = best_path[-2] #TODO: allow this to handle taking multiple moves in a row
 
-        return best_move
+        return best_move.board
 
     # Input: Two tuples (representing the points for a potential move)
     # Input: Array of the current board-state
