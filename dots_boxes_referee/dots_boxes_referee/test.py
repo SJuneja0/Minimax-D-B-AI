@@ -10,13 +10,34 @@ class testFileMethods(unittest.TestCase):
     def defaultTest(self):
         self.assertTrue(True)
     
-    def test_board_functions(self, bd):
-        test_board = board.Board(9, 9, "Test", "Test Opponent")
-        bd.create_board()
-        self.assertEqual(test_board.dots, bd.dots)
-        self.assertEqual(test_board.edges, bd.edges)
-        self.assertEqual(test_board.box, bd.box)
+    def test_board_functions(self):
+        test_board = board.Board(2, 2, "Test", "Test Opponent")
+        test_dots = []
+        test_edges = []
+        test_boxes = []
+        for i in range(3):
+            for j in range(3):
+                test_dots.append(board.Dot(i, j))
+        for x in range(2):
+            for y in range(3):
+                edge = board.Edge(test_dots[3 * x + y], test_dots[3 * (x + 1) + y])
+                test_edges.append(edge)
+        for x in range(3):
+            for y in range(2):
+                edge = board.Edge(test_dots[3 * x + y], test_dots[3 * x + y + 1])
+                test_edges.append(edge)
+        for x in range(2):
+            for y in range(2):
+                top_edge = test_edges[3 * x + y]
+                # bottom_edge = test_edges[]
+                # left_edge
+                # right_edge
+                # test_edges.append(edge)
+        self.assertEqual(test_board.dots, test_dots)
+        self.assertEqual(test_board.edges, test_edges)
+        self.assertEqual(test_board.box, test_boxes)
         self.assertFalse(test_board.is_game_over())
+
         test_legal_moves = test_board.get_legal_moves()
         # Unsure how to test update_board
     
