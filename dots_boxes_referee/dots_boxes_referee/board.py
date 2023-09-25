@@ -104,23 +104,23 @@ class Board:
                 self.dots.append(Dot(x, y))
 
         # Create horizontal edges.
-        for x in range(self.row):
-            for y in range(self.column + 1):
+        for x in range(self.row + 1):
+            for y in range(self.column):
                 edge = Edge(self.dots[y + x * (self.column + 1)], self.dots[y + (x + 1) * (self.column + 1)])
                 self.edges.append(edge)
 
         # Create vertical edges.
-        for x in range(self.row + 1):
-            for y in range(self.column):
+        for x in range(self.row):
+            for y in range(self.column + 1):
                 edge = Edge(self.dots[y + x * (self.column + 1)], self.dots[y + x * (self.column + 1) + 1])
-                self.edges.append(edge)
+            self.edges.append(edge)
 
         for x in range(self.row):
             for y in range(self.column):
-                top_edge = self.edges[y + x * (self.column + 1)]
-                right_edge = self.edges[y + x * (self.column + 1) + self.column + 1]
-                bottom_edge = self.edges[y + (x + 1) * (self.column + 1) + self.column + 1]
-                left_edge = self.edges[y + (x + 1) * (self.column + 1)]
+                top_edge = self.edges[y + (x * (self.column * x))]
+                right_edge = self.edges[(y + 1) + (x + 2) * (self.column + 1)]
+                bottom_edge = self.edges[y + (x + 1) * (self.column + x) - self.column * x]
+                left_edge = self.edges[y + (x + 2) * (self.column + 1)]
 
                 curr_box = Box([top_edge, right_edge, bottom_edge, left_edge])
                 self.box.append(curr_box)
