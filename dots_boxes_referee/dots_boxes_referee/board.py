@@ -94,30 +94,30 @@ class Board:
 
     # Input: Null
     # Output: Null
-    # Purpose: to create the wanted board
+    # Purpose: to create the wanted board, this will only work for boards that are 3x3 boxes or more
     def create_board(self):
         for x in range(self.row + 1):
             for y in range(self.column + 1):
                 self.dots.append(Dot(x, y))
 
         # Create horizontal edges.
-        for x in range(self.row + 1):
-            for y in range(self.column):
+        for x in range(self.row):
+            for y in range(self.column + 1):
                 edge = Edge(self.dots[y + x * (self.column + 1)], self.dots[y + (x + 1) * (self.column + 1)])
                 self.edges.append(edge)
 
         # Create vertical edges.
-        for x in range(self.row):
-            for y in range(self.column + 1):
+        for x in range(self.row + 1):
+            for y in range(self.column):
                 edge = Edge(self.dots[y + x * (self.column + 1)], self.dots[y + x * (self.column + 1) + 1])
-            self.edges.append(edge)
+                self.edges.append(edge)
 
         for x in range(self.row):
             for y in range(self.column):
-                top_edge = self.edges[y + (x * (self.column * x))]
-                right_edge = self.edges[(y + 1) + (x + 2) * (self.column + 1)]
-                bottom_edge = self.edges[y + (x + 1) * (self.column + x) - self.column * x]
-                left_edge = self.edges[y + (x + 2) * (self.column + 1)]
+                top_edge = self.edges[y + x * (self.column + 1)]
+                right_edge = self.edges[y + (x + 1) * (self.column + 1) + (self.row + 1)]
+                bottom_edge = self.edges[y + (x + 1) * (self.column + 1) + (self.row + 1) + self.column]
+                left_edge = self.edges[y + x * (self.column + 1) + self.row + 1]
 
                 curr_box = Box([top_edge, right_edge, bottom_edge, left_edge])
                 self.box.append(curr_box)
@@ -200,8 +200,15 @@ class Board:
     #         return True
     #     return False
 
-# if __name__ == "__main__":
-#     game_board = Board(9, 9, "SaucyBoy", "Enemy")
-#     print(game_board.create_board())
+
+if __name__ == "__main__":
+    game_board = Board(4, 4, "SaucyBoy", "Enemy")
+    game_board.create_board()
+    for box in game_board.box:
+        print("Box:")
+        for edge in box.dots:
+            print(f"Edge: {edge.dot1.row}, {edge.dot1.column} - {edge.dot2.row}, {edge.dot2.column}, Owner: {edge.owner}")
+            print(f"Box Owner: {box.owner}")
+            print()
 
 # print(board_ish.boxes())
