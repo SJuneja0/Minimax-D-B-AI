@@ -6,6 +6,12 @@ class Dot:
         self.row = row
         self.column = column
 
+    def equals(self, dot):
+        if self.row == dot.row and self.column == dot.column:
+            return True
+        else:
+            return False
+
 
 # Input: two Dot class dots
 # Output: Creates an edge/line
@@ -16,15 +22,29 @@ class Edge:
         self.dot2 = dot2
         self.owner = None  # string
 
+    def equals(self, edge):
+        dot1 = self.dot1
+        dot2 = self.dot2
+        if edge.dot1.equals(dot1) and edge.dot2.equals(dot2):
+            return True
+        else:
+            return False
+
 
 # Input: the 4 dots in an array
 # Output: creates a box with the 4 lines
 # Purpose: to go through the boxes based on edges
 class Box:
-    def __init__(self, dots):
-        self.dots = dots
+    def __init__(self, edges):
+        self.edges = edges
         self.owner = None  # string
 
+    def equals(self, box):
+        for i in range(4):
+            if self.edges[i].equals(box.edges[i]):
+                return True
+            else:
+                return False
 
 # Input: row, column, owner, and opponent
 # Output: reads from the board
@@ -50,7 +70,7 @@ class Board:
     # Input: Null
     # Output: Null
     # Purpose: Updates the boxes and lines and the owners on the board
-    def update_board(self): # TODO: check to make sure it can handle false moves
+    def update_board(self):  # TODO: check to make sure it can handle false moves
         move_file = open("move_file", "r")
         text_move_file = move_file.read()
         move = text_move_file.split()
@@ -122,7 +142,6 @@ class Board:
                 curr_box = Box([top_edge, right_edge, bottom_edge, left_edge])
                 self.box.append(curr_box)
 
-
     # Input:
     # Output:
     # Purpose:
@@ -142,7 +161,6 @@ class Board:
 
     def is_game_over(self):
         return not any(edge.owner is None for edge in self.edges)
-
 
 # if __name__ == "__main__":
 #     game_board = Board(4, 4, "SaucyBoy", "Enemy")
