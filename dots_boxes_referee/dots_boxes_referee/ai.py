@@ -266,6 +266,6 @@ class AI:
 
 
 # Testing
-if __name__ == "__main__":
-    program = AI("opp")
-    program.main()
+# if __name__ == "__main__":
+program = AI("opp")
+program.main()
