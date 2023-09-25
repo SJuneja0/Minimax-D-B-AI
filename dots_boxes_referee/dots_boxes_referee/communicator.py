@@ -57,7 +57,8 @@ class communicator:
 
 
 """TEST CODE"""
-# COM = communicator("GG", 4)
+COM = communicator("GG")
+print(COM.is_our_turn())
 # COM.read_board()
 # COM.write_move((2, 2), (2, 3))
 # COM.is_our_turn()
