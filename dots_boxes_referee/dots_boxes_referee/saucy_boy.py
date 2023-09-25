@@ -31,10 +31,10 @@ class saucy_boy:
                     pass
                 elif type(isValid) == board.Edge:
                     self.coms.report_invalid_move(isValid, self.bd)  # TODO: make this function handle inValid moves
-                    # ^^^^^^^^^^^^^^^ BRANDON, CODE THIS SKELETON FUNCTION, ITS IN COMMUNICATION ^^^^^^^^^^^^^^^^^^^^^^^
                     break
                 else:
-                    best_move_board = self.decide_move(self.bd)  # best move is board that is one level below the curr root board
+                    best_move_board = self.decide_move(
+                        self.bd)  # best move is board that is one level below the curr root board
                     best_move = self.seperate_move(best_move_board)
                     self.coms.write_move(best_move.dot1, best_move.dot2)
                     self.bd.update_board()
@@ -239,3 +239,6 @@ class saucy_boy:
                            available_moves_weight * ai_moves)
 
         return heuristic_score
+
+    def evaluation_fcn(self, curr_board, player_name, opponent_name):
+        return self.utility_fcn(curr_board, player_name, opponent_name)
