@@ -20,6 +20,7 @@ class communicator:
             point1_to_string = str(point1.row) + "," + str(point1.column)
             point2_to_string = str(point2.row) + "," + str(point2.column)
             move_file.write(self.name + " " + point1_to_string + " " + point2_to_string + "\n")
+            move_file.close()
         else:
             print("WRITE_MOVE: Not our turn")
 
@@ -33,6 +34,7 @@ class communicator:
             move_file.truncate()
             move_file = open("move_file", "a")
             move_file.write(self.name + " 0,0 0,0")
+            move_file.close()
         else:
             print("WRITE_FALSE_MOVE: Not our Turn")
 

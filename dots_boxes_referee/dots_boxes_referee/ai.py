@@ -2,6 +2,7 @@ import tree_node as treeNode
 import communicator
 import board
 import time
+import os
 
 """Functions"""
 
@@ -20,6 +21,17 @@ class AI:
         #  TODO: May need a flag to see if we get an extra turn
 
     def main(self):
+        # TODO: NEED something to handle going first, getting an empty board
+        while not os.path.isfile("move_file"):
+            pass
+        move_file = open("./move_file", "r")
+        content = move_file.read()
+        if move_file.read() == "":
+            best_move_board = self.decide_move(self.bd)  # returns a board that is one level below curr_board
+            best_move = self.separate_move(best_move_board)  # finds the move to get to that best_board
+            self.coms.write_move(best_move.dot1, best_move.dot2)  # writes that move
+            self.bd.update_board()  # update's the internal board with our move
+
         # TODO: adjust for if opponents or we get a point/take another turn
         isWeWin = True
         print(self.bd.is_game_over())
@@ -32,7 +44,7 @@ class AI:
                 curr_boxes_taken = len(self.bd.completed_boxes)  # num of boxes before new move is added
                 isValid = self.bd.update_board()
                 new_box_taken = len(self.bd.completed_boxes)  # num of boxes after new move is added
-                if curr_boxes_taken == new_box_taken:
+                if curr_boxes_taken != new_box_taken:
                     self.coms.write_false_move()
 
                 # else if an invalid move was given, report it and end the game
