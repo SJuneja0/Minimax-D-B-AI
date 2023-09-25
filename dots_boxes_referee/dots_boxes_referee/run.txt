@@ -1,2 +1,2 @@
-saucy_boy.py
-python saucy_boy.py
+AI.py
+python AI.py

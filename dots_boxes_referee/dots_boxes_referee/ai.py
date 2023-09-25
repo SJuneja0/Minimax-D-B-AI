@@ -6,7 +6,7 @@ import time
 """Functions"""
 
 
-class saucy_boy:
+class AI:
 
     def __init__(self, opponent):
         self.bd = board.Board(9, 9, "SaucyBoy")
