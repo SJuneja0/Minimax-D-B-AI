@@ -25,17 +25,23 @@ class saucy_boy:
                 curr_boxes_taken = len(self.bd.completed_boxes)
                 isValid = self.bd.update_board()
                 new_box_taken = len(self.bd.completed_boxes)
-                if not curr_boxes_taken == new_box_taken:
+                if not curr_boxes_taken == new_box_taken: # if there is a box that was taken
                     # write false move and pass back board
-                    self.coms.write_false_move()  # TODO: make this function handle false moves/opponent's turns
-                    pass
+                    if self.doesOppGiveFalseMove(): # and the opponent gave a false move: we go again # TODO: WRITE THIS BOOLEAN FUNCTION
+                        best_move_board = self.decide_move(self.bd)  # best move is board that is one level below the
+                        # curr root board
+                        best_move = self.seperate_move(best_move_board, self.bd)
+                        # ^^^^^ TODO: MAKE SEPARATE MOVE WHICH TAKES TWO BOARDS AND GIVES BACK A MOVE TO WRITE^^^^^^
+                        self.coms.write_move(best_move.dot1, best_move.dot2)
+                        self.bd.update_board()
+                    else:  # else, it is the opponent's turn, and we write a false move
+                        self.coms.write_false_move()
                 elif type(isValid) == board.Edge:
-                    self.coms.report_invalid_move(isValid, self.bd)  # TODO: make this function handle inValid moves
+                    self.coms.report_invalid_move(isValid, self.bd)
                     break
                 else:
-                    best_move_board = self.decide_move(
-                        self.bd)  # best move is board that is one level below the curr root board
-                    best_move = self.seperate_move(best_move_board)
+                    best_move_board = self.decide_move(self.bd)  # best move is board that is one level below the curr root board
+                    best_move = self.seperate_move(best_move_board, self.bd)
                     self.coms.write_move(best_move.dot1, best_move.dot2)
                     self.bd.update_board()
         # DO GAME TERMINATION HERE
@@ -75,7 +81,6 @@ class saucy_boy:
         else:
             return False
 
-    # TODO: REWRITE THIS TO WORK WITH THE TREE_NODE CLASS, INPUT IS NOW A TREE NODE
     # Input: Board
     # Input: Name to write to the spot
     # Output: Array of possible valid board states
@@ -135,7 +140,6 @@ class saucy_boy:
                     break
             return minValue
 
-    # TODO: NEED TO IMPLEMENT THE FACT THAT IF YOU GET A SQUARE, YOU GO AGAIN, DO THIS IN CHILD GENERATION
     # Input: A initial tree node that's children are empty
     # Output: A tree node with children who have children down to a specified depth
     # Purpose: Fills a starting tree node with children down to a specified depth
@@ -159,7 +163,7 @@ class saucy_boy:
                 if len(best_children) <= 3:
                     curr_tree_Node.children.append(child_node)
                 else:
-                    self.h_sort(curr_tree_Node.children)  # TODO: need to make an h_sort
+                    self.h_sort(curr_tree_Node.children)
                     curr_child_value = self.utility_fcn(child_node.board, self.name, self.opponent)
                     worst_child_value = self.utility_fcn(curr_tree_Node.children[-1].board, self.name, self.opponent)
                     if curr_child_value > worst_child_value:
