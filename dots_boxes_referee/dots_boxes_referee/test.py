@@ -39,6 +39,8 @@ class testFileMethods(unittest.TestCase):
         self.assertFalse(test_board.is_game_over())
         self.assertEqual(3, test_board.find_edge_in_board(test_edges[3]))
         self.assertEqual(test_edges, test_board.get_legal_moves())
+        test_board.edges[3].owner = "Test"
+        self.assertEqual(test_edges[3], test_board.edges_controlled_by("Test"))
         # Unsure how to test update_board
     
     def test_saucy_boy_functions(self, sb):
