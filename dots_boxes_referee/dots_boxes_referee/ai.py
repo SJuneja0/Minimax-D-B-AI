@@ -80,7 +80,7 @@ class AI:
     # Output: Boolean (true if the move suggested is valid)
     # Purpose: To check if a given move is valid
     def valid_move(self, edge):
-        if edge in self.bd.edges & edge.owner.equals(None):
+        if self.bd.find_edge_in_board(edge) != -1 & edge.owner.equals(None):
             return True
         else:
             return False
@@ -198,7 +198,7 @@ class AI:
         index = value.index(value.min())
         holder = children[-1]
         lowest = children[index]
-        if not holder.equals(lowest):
+        if not holder.equals(lowest):             #possible equals problem
             children[-1] = children[index]
             children[index] = holder
             del value[index]

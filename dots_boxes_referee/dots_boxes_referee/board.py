@@ -22,7 +22,7 @@ class Edge:
     def equals(self, edge):
         dot1 = self.dot1
         dot2 = self.dot2
-        return edge.dot1.equals(dot1) and edge.dot2.equals(dot2)
+        return edge.dot1.equals(dot1) and edge.dot2.equals(dot2) or edge.dot1.equals(dot2) and edge.dot2.equals(dot1)
 
 
 
@@ -37,7 +37,7 @@ class Box:
     def equals(self, box):
         count = 0
         for i in range(4):
-            if self.edges[i].equals(box.edges[i]):
+            if self.edges[i].equals(box.edges[i]) or self.edges[-i].equals(box.edges[i]):
                 count += 1
             else:
                 return False
@@ -76,8 +76,9 @@ class Board:
         dot1 = Dot(row1, col1)
         dot2 = Dot(row2, col2)
         curr_edge = Edge(dot1, dot2)
-        curr_edge = self.find_edge_in_board(curr_edge)  # Finds an edge that is at the same location and spit's out the object on the board
-        i = self.edges.index(curr_edge)
+        i = self.find_edge_in_board(curr_edge)  # i = index
+        if i == -1:
+            return curr_edge
         edge = self.edges[i]
         if curr_edge in self.edges and edge.owner.equals(
                 None):  # TODO: curr_edges may not be in self.edges, even if they are the same
@@ -157,6 +158,14 @@ class Board:
                 legal_moves.append(edge)
         return legal_moves
 
+    def find_edge_in_board(self, curr_edge):
+        index = 0
+        for edge in self.edges:
+            if edge.equals(curr_edge) or curr_edge.equals(edge):
+                return index
+            index += 1
+
+        return -1              # if nothing is found returns -1
     def is_game_over(self):
         return not any(edge.owner is None for edge in self.edges)
 
