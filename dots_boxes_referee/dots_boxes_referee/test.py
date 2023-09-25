@@ -11,34 +11,34 @@ class testFileMethods(unittest.TestCase):
         self.assertTrue(True)
     
     def test_board_functions(self):
-        test_board = board.Board(2, 2, "Test", "Test Opponent")
+        test_board = board.Board(3, 3, "Test", "Test Opponent")
         test_dots = []
         test_edges = []
         test_boxes = []
-        for i in range(3):
-            for j in range(3):
+        for i in range(4):
+            for j in range(4):
                 test_dots.append(board.Dot(i, j))
-        for x in range(2):
+        for x in range(3):
+            for y in range(4):
+                edge = board.Edge(test_dots[4 * x + y], test_dots[4 * (x + 1) + y])
+                test_edges.append(edge)
+        for x in range(4):
             for y in range(3):
-                edge = board.Edge(test_dots[3 * x + y], test_dots[3 * (x + 1) + y])
+                edge = board.Edge(test_dots[4 * x + y], test_dots[4 * x + y + 1])
                 test_edges.append(edge)
         for x in range(3):
-            for y in range(2):
-                edge = board.Edge(test_dots[3 * x + y], test_dots[3 * x + y + 1])
-                test_edges.append(edge)
-        for x in range(2):
-            for y in range(2):
-                top_edge = test_edges[3 * x + y]
-                # bottom_edge = test_edges[]
-                # left_edge
-                # right_edge
-                # test_edges.append(edge)
+            for y in range(3):
+                top_edge = test_edges[4 * x + y]
+                bottom_edge = test_edges[4 * (x + 1) + y + 7]
+                left_edge = test_edges[4 * x + y + 4]
+                right_edge = test_edges[4 * (x + 1) + y + 4]
+                test_boxes.append(board.Box([top_edge, right_edge, bottom_edge, left_edge]))
         self.assertEqual(test_board.dots, test_dots)
         self.assertEqual(test_board.edges, test_edges)
         self.assertEqual(test_board.box, test_boxes)
         self.assertFalse(test_board.is_game_over())
-
-        test_legal_moves = test_board.get_legal_moves()
+        self.assertEqual(3, test_board.find_edge_in_board(test_edges[3]))
+        self.assertEqual(test_edges, test_board.get_legal_moves())
         # Unsure how to test update_board
     
     def test_saucy_boy_functions(self, sb):
