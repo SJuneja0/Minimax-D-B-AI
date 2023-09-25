@@ -25,13 +25,12 @@ class saucy_boy:
                 curr_boxes_taken = len(self.bd.completed_boxes)
                 isValid = self.bd.update_board()
                 new_box_taken = len(self.bd.completed_boxes)
-                if not curr_boxes_taken == new_box_taken: # if there is a box that was taken
+                if not curr_boxes_taken == new_box_taken:  # if there is a box that was taken
                     # write false move and pass back board
-                    if self.doesOppGiveFalseMove(): # and the opponent gave a false move: we go again # TODO: WRITE THIS BOOLEAN FUNCTION
+                    if self.doesOppGiveFalseMove():  # and the opponent gave a false move: we go again # TODO: WRITE THIS BOOLEAN FUNCTION
                         best_move_board = self.decide_move(self.bd)  # best move is board that is one level below the
                         # curr root board
-                        best_move = self.seperate_move(best_move_board, self.bd)
-                        # ^^^^^ TODO: MAKE SEPARATE MOVE WHICH TAKES TWO BOARDS AND GIVES BACK A MOVE TO WRITE^^^^^^
+                        best_move = self.separate_move(best_move_board, self.bd)
                         self.coms.write_move(best_move.dot1, best_move.dot2)
                         self.bd.update_board()
                     else:  # else, it is the opponent's turn, and we write a false move
@@ -40,8 +39,9 @@ class saucy_boy:
                     self.coms.report_invalid_move(isValid, self.bd)
                     break
                 else:
-                    best_move_board = self.decide_move(self.bd)  # best move is board that is one level below the curr root board
-                    best_move = self.seperate_move(best_move_board, self.bd)
+                    best_move_board = self.decide_move(
+                        self.bd)  # best move is board that is one level below the curr root board
+                    best_move = self.separate_move(best_move_board, self.bd)
                     self.coms.write_move(best_move.dot1, best_move.dot2)
                     self.bd.update_board()
         # DO GAME TERMINATION HERE
@@ -246,3 +246,16 @@ class saucy_boy:
 
     def evaluation_fcn(self, curr_board, player_name, opponent_name):
         return self.utility_fcn(curr_board, player_name, opponent_name)
+
+    def doesOppGiveFalseMove(self):
+        # read the move file check to see if the components are "opponent name 0,0 0,0"
+        move_file = open("move_file", "r")
+        text_move_file = move_file.read()
+        move = text_move_file.split()
+        dot1 = board.Dot(int(move[1][0]), int(move[1][1]))
+        dot2 = board.Dot(int(move[2][0]), int(move[2][1]))
+        emptyDot = board.Dot(0, 0)
+        if move[0].equals(self.opponent) and dot1.equals(emptyDot) and dot2.equals(emptyDot):
+            return True
+        else:
+            return False

@@ -54,8 +54,8 @@ class Board:
         move_file = open("move_file", "r")
         text_move_file = move_file.read()
         move = text_move_file.split()
-        dot1 = Dot(int(move[1][0]), int(move[1][1]))  # Convert to integers
-        dot2 = Dot(int(move[2][0]), int(move[2][1]))  # Convert to integers
+        dot1 = Dot(int(move[1][0]), int(move[1][1]))
+        dot2 = Dot(int(move[2][0]), int(move[2][1]))
         curr_edge = Edge(dot1, dot2)
         i = self.edges.index(curr_edge)
         edge = self.edges[i]
