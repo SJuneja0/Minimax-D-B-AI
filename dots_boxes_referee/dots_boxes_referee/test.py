@@ -1,4 +1,4 @@
-import saucy_boy
+import ai
 import board
 import tree_node
 import communicator
@@ -42,7 +42,7 @@ class testFileMethods(unittest.TestCase):
         # Unsure how to test update_board
     
     def test_saucy_boy_functions(self, sb):
-        test_sb = saucy_boy.saucy_boy("Test Opponent")
+        test_sb = ai.AI("Test Opponent")
 
         self.assertTrue(True)
 
