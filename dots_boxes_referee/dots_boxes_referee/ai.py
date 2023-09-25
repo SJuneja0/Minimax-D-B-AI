@@ -3,6 +3,7 @@ import communicator
 import board
 import time
 import os
+import copy
 
 """Functions"""
 
@@ -104,9 +105,9 @@ class AI:
     def generate_possible_moves(self, curr_board, name):
         valid_child_boards = []
         for line in curr_board.edges:
-            if line.owner.equals(None):
-                copy_board = curr_board.copy()
-                i = curr_board.index(line)
+            if line.owner is None:
+                copy_board = copy.deepcopy(curr_board)
+                i = curr_board.edges.index(line)
                 edge = copy_board.edges[i]  # TODO could be problem in indexing line
                 edge.owner = name
                 valid_child_boards.append(copy_board)
