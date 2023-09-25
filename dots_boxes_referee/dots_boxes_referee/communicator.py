@@ -1,5 +1,6 @@
 """IMPORTS"""
 import os
+import board
 
 
 class communicator:
@@ -49,16 +50,40 @@ class communicator:
     # Output: None
     # Purpose: to tell the Ref that there is an invalid move and why
     def report_invalid_move(self, invalid_move, curr_board):
+        dot1 = invalid_move.dot1
+        dot2 = invalid_move.dot2
         if invalid_move not in curr_board.edges:
-            dot1 = invalid_move.dot1
-            dot2 = invalid_move.dot2
             print("The move ", dot1.row, ", ", dot1.column, " to", dot2.row, ", ", dot2.column, " is out of range")
-        pass
+        else:
+            print("The move ", dot1.row, ", ", dot1.column, " to", dot2.row, ", ", dot2.column, " is already taken")
 
 
 """TEST CODE"""
-COM = communicator("GG")
-print(COM.is_our_turn())
-# COM.read_board()
-# COM.write_move((2, 2), (2, 3))
-# COM.is_our_turn()
+os.remove("./GG.go")
+os.remove("./move_file")
+COM = communicator("GG")  # Constructor
+
+# Testing Variables
+p1 = board.Dot(0, 0)
+p2 = board.Dot(1, 1)
+p3 = board.Dot(1, 2)
+
+print("No GG.go or move_file: " + str(not COM.is_our_turn()))  # No GG.go or move_file
+with open("GG.go", "xt") as f:
+    f.write("")
+    f.close()
+print("No move_file: " + str(not COM.is_our_turn()))  # No move_file
+os.remove("./GG.go")
+with open("move_file", "xt") as f:
+    f.write("")
+    f.close()
+print("No GG.go: " + str(not COM.is_our_turn()))  # No GG.go
+with open("GG.go", "xt") as f:
+    f.write("")
+    f.close()
+print("Both GG.go and move_file: " + str(COM.is_our_turn()))  # both GG.go and move_file
+
+COM.write_move(p1, p2)  # Write move tester
+COM.write_move(p1, p3)  # Truncates tester
+COM.write_move(p2, p1)  # Inverse order tester
+COM.write_false_move()  # Write false move tester
