@@ -110,7 +110,7 @@ class Board:
         for x in range(self.row):
             for y in range(self.column + 1):
                 edge = Edge(self.dots[y + x * (self.column + 1)], self.dots[y + x * (self.column + 1) + 1])
-            self.edges.append(edge)
+                self.edges.append(edge)
 
         for x in range(self.row):
             for y in range(self.column):
