@@ -114,9 +114,9 @@ class Board:
         for x in range(self.row):
             for y in range(self.column):
                 top_edge = self.edges[y + x * (self.column + 1)]
-                right_edge = self.edges[y + (x + 1) * (self.column + 1) + (self.row + 1)]
-                bottom_edge = self.edges[y + (x + 1) * (self.column + 1) + (self.row + 1) + self.column]
-                left_edge = self.edges[y + x * (self.column + 1) + self.row + 1]
+                right_edge = self.edges[y + x * (self.column + 1) + self.column + 1]
+                bottom_edge = self.edges[y + (x + 1) * (self.column + 1) + self.column + 1]
+                left_edge = self.edges[y + (x + 1) * (self.column + 1)]
 
                 curr_box = Box([top_edge, right_edge, bottom_edge, left_edge])
                 self.box.append(curr_box)
