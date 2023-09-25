@@ -7,10 +7,7 @@ class Dot:
         self.column = column
 
     def equals(self, dot):
-        if self.row == dot.row and self.column == dot.column:
-            return True
-        else:
-            return False
+        return self.row == dot.row and self.column == dot.column
 
 
 # Input: two Dot class dots
@@ -25,10 +22,8 @@ class Edge:
     def equals(self, edge):
         dot1 = self.dot1
         dot2 = self.dot2
-        if edge.dot1.equals(dot1) and edge.dot2.equals(dot2):
-            return True
-        else:
-            return False
+        return edge.dot1.equals(dot1) and edge.dot2.equals(dot2)
+
 
 
 # Input: the 4 dots in an array
@@ -40,11 +35,13 @@ class Box:
         self.owner = None  # string
 
     def equals(self, box):
+        count = 0
         for i in range(4):
             if self.edges[i].equals(box.edges[i]):
-                return True
+                count += 1
             else:
                 return False
+        return count == 4 and self.owner == box.owner
 
 # Input: row, column, owner, and opponent
 # Output: reads from the board
