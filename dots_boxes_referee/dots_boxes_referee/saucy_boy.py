@@ -14,6 +14,7 @@ class saucy_boy:
         self.tree = treeNode.treeNode()
         self.name = "SaucyBoy"
         self.opponent = None
+        self.score = [0, 0]  # index 0 is SaucyBoy and index 1 is the opponent
         self.coms = communicator.communicator(self.name)
 
     def main(self):
@@ -38,7 +39,8 @@ class saucy_boy:
                     self.coms.write_move(best_move.dot1, best_move.dot2)
                     self.bd.update_board()
         # DO GAME TERMINATION HERE
-        pass
+        print("Saucy boy scored ", self.score[0], " points and the opponent scored ", self.score[1], " points")
+        return 1
 
     # Input: Array of the current board-state and the time limit for the AI
     # Output: Null
@@ -217,6 +219,8 @@ class saucy_boy:
             elif box.owner == opponent_name:
                 opponent_score += 1
 
+        self.score[0] = ai_score
+        self.score[1] = opponent_score
         # Evaluate edge control.
         ai_edges = len(curr_board.edges_controlled_by(player_name))
         opponent_edges = len(curr_board.edges_controlled_by(opponent_name))
