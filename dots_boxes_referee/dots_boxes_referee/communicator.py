@@ -48,7 +48,11 @@ class communicator:
     # Input: A edge that describes the invalid move
     # Output: None
     # Purpose: to tell the Ref that there is an invalid move and why
-    def report_invalid_move(self, invalid_move):
+    def report_invalid_move(self, invalid_move, curr_board):
+        if invalid_move not in curr_board.edges:
+            dot1 = invalid_move.dot1
+            dot2 = invalid_move.dot2
+            print("The move ", dot1.row, ", ", dot1.column, " to", dot2.row, ", ", dot2.column, " is out of range")
         pass
 
 

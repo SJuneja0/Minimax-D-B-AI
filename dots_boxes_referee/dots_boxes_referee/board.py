@@ -42,7 +42,7 @@ class Board:
         self.completed_boxes = []
 
     def valid_move(self, edge):
-        if edge in self.edges & edge.owner.equals(None):
+        if edge in self.edges and edge.owner.equals(None):
             return True
         else:
             return False
@@ -59,11 +59,15 @@ class Board:
         curr_edge = Edge(dot1, dot2)
         i = self.edges.index(curr_edge)
         edge = self.edges[i]
-        if curr_edge in self.edges and edge.owner.equals(
-                None):  # TODO: curr_edges may not be in self.edges, even if they are the same
-            pass  # TODO: ALSO NEED TO REPORT EDGES THAT ARE NOT ON THE BOARD or edges that are too long or diagonals
-        else:
-            return curr_edge
+        try:
+            if curr_edge in self.edges and edge.owner.equals(
+                    None):  # TODO: curr_edges may not be in self.edges, even if they are the same
+                pass
+            else:
+                return curr_edge
+        except:
+            return curr_edge  # REPORT EDGES THAT ARE NOT ON THE BOARD or edges that are too long or diagonals
+
         owner = move[0]
 
         # Update edge ownership based on the move

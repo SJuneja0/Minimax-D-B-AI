@@ -29,7 +29,7 @@ class saucy_boy:
                     self.coms.write_false_move()  # TODO: make this function handle false moves/opponent's turns
                     pass
                 elif type(isValid) == board.Edge:
-                    self.coms.report_invalid_move(isValid)  # TODO: make this function handle inValid moves
+                    self.coms.report_invalid_move(isValid, self.bd)  # TODO: make this function handle inValid moves
                     # ^^^^^^^^^^^^^^^ BRANDON, CODE THIS SKELETON FUNCTION, ITS IN COMMUNICATION ^^^^^^^^^^^^^^^^^^^^^^^
                     break
                 else:
@@ -38,7 +38,6 @@ class saucy_boy:
                     self.coms.write_move(best_move.dot1, best_move.dot2)
                     self.bd.update_board()
         # DO GAME TERMINATION HERE
-
         pass
 
     # Input: Array of the current board-state and the time limit for the AI
@@ -180,6 +179,27 @@ class saucy_boy:
         # if this node the function is inspecting is the first one, return it now that it is filled up
         if curr_tree_Node.isRootNode:
             return curr_tree_Node
+
+    def h_sort(self, children):
+        value = [self.utility_fcn(children[0].board, self.name, self.opponent),
+                 self.utility_fcn(children[1].board, self.name, self.opponent),
+                 self.utility_fcn(children[2].board, self.name, self.opponent)]
+
+        index = value.index(value.min())
+        holder = children[-1]
+        lowest = children[index]
+        if not holder.equals(lowest):
+            children[-1] = children[index]
+            children[index] = holder
+            del value[index]
+
+        index = value.index(value.min())
+        holder = children[-2]
+        lowest = children[index]
+        if not holder.equals(lowest):
+            children[-2] = children[index]
+            children[index] = holder
+            del value[index]
 
     """Heuristics"""
 
