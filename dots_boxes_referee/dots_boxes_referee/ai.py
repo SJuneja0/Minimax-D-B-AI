@@ -37,6 +37,7 @@ class AI:
         isWeWin = True
         print(self.bd.is_game_over())
         while not self.bd.is_game_over():  # while the game is not over
+            print("RUNNING CORE LOOP")
             print(self.coms.is_our_turn())
             if self.coms.is_our_turn():  # check to see if it's our turn
                 # start core gameplay loop
@@ -174,7 +175,8 @@ class AI:
             best_children = []
             children_values = []
             for child_board in children_boards:
-                child_node = empty_child_node.copy()
+                child_node = copy.copy(empty_child_node)
+                child_node.children = [].copy()
                 child_node.board = child_board
 
                 if len(best_children) <= 3:
