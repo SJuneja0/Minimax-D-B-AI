@@ -6,45 +6,49 @@ import time
 """Functions"""
 
 
-class saucy_boy:
+class AI:
 
     def __init__(self, opponent):
-        self.bd = board.Board(9, 9, "SaucyBoy")
+        self.bd = board.Board(9, 9, "SaucyBoy", opponent)
         self.bd.create_board()
-        self.tree = treeNode.treeNode()
+        self.tree = treeNode.treeNode(self.bd, [], None, True)
         self.name = "SaucyBoy"
-        self.opponent = None
+        self.opponent = opponent
         self.score = [0, 0]  # index 0 is SaucyBoy and index 1 is the opponent
         self.coms = communicator.communicator(self.name)
+        print("INITIALIZED")
+        #  TODO: May need a flag to see if we get an extra turn
 
     def main(self):
         # TODO: adjust for if opponents or we get a point/take another turn
         isWeWin = True
-        while not self.bd.is_game_over():
-            if self.coms.is_our_turn():
-                curr_boxes_taken = len(self.bd.completed_boxes)
+        print(self.bd.is_game_over())
+        while not self.bd.is_game_over():  # while the game is not over
+            print(self.coms.is_our_turn())
+            if self.coms.is_our_turn():  # check to see if it's our turn
+                # start core gameplay loop
+
+                # if there is a new box that was taken by the opp, write a false move
+                curr_boxes_taken = len(self.bd.completed_boxes) # num of boxes before new move is added
                 isValid = self.bd.update_board()
-                new_box_taken = len(self.bd.completed_boxes)
-                if not curr_boxes_taken == new_box_taken:  # if there is a box that was taken
-                    # write false move and pass back board
-                    if self.doesOppGiveFalseMove():  # and the opponent gave a false move: we go again # TODO: WRITE THIS BOOLEAN FUNCTION
-                        best_move_board = self.decide_move(self.bd)  # best move is board that is one level below the
-                        # curr root board
-                        best_move = self.separate_move(best_move_board, self.bd)
-                        self.coms.write_move(best_move.dot1, best_move.dot2)
-                        self.bd.update_board()
-                    else:  # else, it is the opponent's turn, and we write a false move
-                        self.coms.write_false_move()
+                new_box_taken = len(self.bd.completed_boxes) # num of boxes after new move is added
+                if curr_boxes_taken == new_box_taken:
+                    self.coms.write_false_move()
+
+                # else if an invalid move was given, report it and end the game
                 elif type(isValid) == board.Edge:
                     self.coms.report_invalid_move(isValid, self.bd)
                     break
+
+                # if the move was valid/a false move, and they haven't gotten a new box
+                # take a turn
                 else:
-                    best_move_board = self.decide_move(
-                        self.bd)  # best move is board that is one level below the curr root board
-                    best_move = self.separate_move(best_move_board, self.bd)
-                    self.coms.write_move(best_move.dot1, best_move.dot2)
-                    self.bd.update_board()
+                    best_move_board = self.decide_move(self.bd)  # returns a board that is one level below curr_board
+                    best_move = self.separate_move(best_move_board)  # finds the move to get to that best_board
+                    self.coms.write_move(best_move.dot1, best_move.dot2)  # writes that move
+                    self.bd.update_board()  # update's the internal board with our move
         # DO GAME TERMINATION HERE
+        print("GAME IS OVER")
         print("Saucy boy scored ", self.score[0], " points and the opponent scored ", self.score[1], " points")
         return 1
 
@@ -259,3 +263,7 @@ class saucy_boy:
             return True
         else:
             return False
+
+# Testing
+program = AI("opp")
+program.main()

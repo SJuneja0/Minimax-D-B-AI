@@ -50,7 +50,7 @@ class Board:
     # Input: Null
     # Output: Null
     # Purpose: Updates the boxes and lines and the owners on the board
-    def update_board(self):
+    def update_board(self): # TODO: check to make sure it can handle false moves
         move_file = open("move_file", "r")
         text_move_file = move_file.read()
         move = text_move_file.split()
@@ -61,14 +61,11 @@ class Board:
         curr_edge = Edge(dot1, dot2)
         i = self.edges.index(curr_edge)
         edge = self.edges[i]
-        try:
-            if curr_edge in self.edges and edge.owner.equals(
-                    None):  # TODO: curr_edges may not be in self.edges, even if they are the same
-                pass
-            else:
-                return curr_edge
-        except:
-            return curr_edge  # REPORT EDGES THAT ARE NOT ON THE BOARD or edges that are too long or diagonals
+        if curr_edge in self.edges and edge.owner.equals(
+                None):  # TODO: curr_edges may not be in self.edges, even if they are the same
+            pass
+        else:
+            return curr_edge
 
         owner = move[0]
 
