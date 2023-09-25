@@ -29,9 +29,9 @@ class AI:
                 # start core gameplay loop
 
                 # if there is a new box that was taken by the opp, write a false move
-                curr_boxes_taken = len(self.bd.completed_boxes) # num of boxes before new move is added
+                curr_boxes_taken = len(self.bd.completed_boxes)  # num of boxes before new move is added
                 isValid = self.bd.update_board()
-                new_box_taken = len(self.bd.completed_boxes) # num of boxes after new move is added
+                new_box_taken = len(self.bd.completed_boxes)  # num of boxes after new move is added
                 if curr_boxes_taken == new_box_taken:
                     self.coms.write_false_move()
 
@@ -264,6 +264,8 @@ class AI:
         else:
             return False
 
+
 # Testing
-program = AI("opp")
-program.main()
+if __name__ == "__main__":
+    program = AI("opp")
+    program.main()
