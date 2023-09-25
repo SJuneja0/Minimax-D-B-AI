@@ -54,11 +54,12 @@ class Board:
         move_file = open("move_file", "r")
         text_move_file = move_file.read()
         move = text_move_file.split()
-        row1, col1 = int(move[1][0]), int(move[1][1])
-        row2, col2 = int(move[2][0]), int(move[2][1])
+        row1, col1 = int(move[1][0]), int(move[1][2])
+        row2, col2 = int(move[2][0]), int(move[2][2])
         dot1 = Dot(row1, col1)
         dot2 = Dot(row2, col2)
         curr_edge = Edge(dot1, dot2)
+        curr_edge = self.find_edge_in_board(curr_edge)  # Finds an edge that is at the same location and spit's out the object on the board
         i = self.edges.index(curr_edge)
         edge = self.edges[i]
         if curr_edge in self.edges and edge.owner.equals(
