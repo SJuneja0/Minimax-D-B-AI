@@ -28,29 +28,25 @@ class AI:
             if self.coms.is_our_turn():  # check to see if it's our turn
                 # start core gameplay loop
 
-                # if there is a new box that was taken
+                # if there is a new box that was taken by the opp, write a false move
                 curr_boxes_taken = len(self.bd.completed_boxes) # num of boxes before new move is added
                 isValid = self.bd.update_board()
                 new_box_taken = len(self.bd.completed_boxes) # num of boxes after new move is added
-                if not curr_boxes_taken == new_box_taken:
+                if curr_boxes_taken == new_box_taken:
+                    self.coms.write_false_move()
 
-                    if self.doesOppGiveFalseMove():  # and the opponent gave a false move, we go again
-                        best_move_board = self.decide_move(self.bd)  # best move is board that is one level below the
-                        # curr root board
-                        best_move = self.separate_move(best_move_board, self.bd)
-                        self.coms.write_move(best_move.dot1, best_move.dot2)
-                        self.bd.update_board()
-                    else:  # else, it is the opponent's turn, and we write a false move
-                        self.coms.write_false_move()
+                # else if an invalid move was given, report it and end the game
                 elif type(isValid) == board.Edge:
                     self.coms.report_invalid_move(isValid, self.bd)
                     break
+
+                # if the move was valid/a false move, and they haven't gotten a new box
+                # take a turn
                 else:
-                    best_move_board = self.decide_move(
-                        self.bd)  # best move is board that is one level below the curr root board
-                    best_move = self.separate_move(best_move_board, self.bd)
-                    self.coms.write_move(best_move.dot1, best_move.dot2)
-                    self.bd.update_board()
+                    best_move_board = self.decide_move(self.bd)  # returns a board that is one level below curr_board
+                    best_move = self.separate_move(best_move_board)  # finds the move to get to that best_board
+                    self.coms.write_move(best_move.dot1, best_move.dot2)  # writes that move
+                    self.bd.update_board()  # update's the internal board with our move
         # DO GAME TERMINATION HERE
         print("GAME IS OVER")
         print("Saucy boy scored ", self.score[0], " points and the opponent scored ", self.score[1], " points")

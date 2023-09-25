@@ -50,7 +50,7 @@ class Board:
     # Input: Null
     # Output: Null
     # Purpose: Updates the boxes and lines and the owners on the board
-    def update_board(self):
+    def update_board(self): # TODO: check to make sure it can handle false moves
         move_file = open("move_file", "r")
         text_move_file = move_file.read()
         move = text_move_file.split()
