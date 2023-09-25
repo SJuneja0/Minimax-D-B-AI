@@ -122,7 +122,6 @@ class Board:
                 curr_box = Box([top_edge, right_edge, bottom_edge, left_edge])
                 self.box.append(curr_box)
 
-        # self.update_board(self)
 
     # Input:
     # Output:
@@ -141,74 +140,16 @@ class Board:
                 legal_moves.append(edge)
         return legal_moves
 
-    # def box_check(self):
-    #     for box in self.box:
-    #         if box.owner is not None:
-    #             self.completed_boxes.append(box)
-    #
-    # def new_box_completed(self):
-    #     prev_box_count = len(self.completed_boxes)
-    #     self.box_check()
-    #     if prev_box_count < len(self.completed_boxes):
-    #         return True
-    #     return False
-
     def is_game_over(self):
         return not any(edge.owner is None for edge in self.edges)
 
-    #
-    # # unused
-    # def getNeighbors(self, rowNum, colNum, isVertical, board):
-    #     # neighbors is an array of 8 strings denoted as "[vertical indicator (0 or 1)]-[row number]-[col number]-[
-    #     # Owner]" 0 is above, 1 is right, 2 is below, and 3 is left, and 4-7 are identical, except for opposing
-    #     # orientation
-    #     neighbors = [[], [], [], [], [], [], [], []]
-    #     if isVertical:
-    #         verNum = 1
-    #         notVer = 0
-    #     else:
-    #         verNum = 0
-    #         notVer = 1
-    #     if rowNum > 0:
-    #         neighbors[0] = [verNum, (rowNum - 1), colNum, board[verNum][rowNum - 1][colNum]]
-    #         neighbors[4] = [notVer, (rowNum - 1), colNum, board[notVer][rowNum - 1][colNum]]
-    #     if rowNum < len(board[0]) - 1:
-    #         neighbors[2] = [verNum, (rowNum + 1), colNum, board[verNum][rowNum + 1][colNum]]
-    #         neighbors[6] = [notVer, (rowNum + 1), colNum, board[notVer][rowNum + 1][colNum]]
-    #     if colNum > 0:
-    #         neighbors[3] = [verNum, rowNum, (colNum - 1), board[verNum][rowNum][colNum - 1]]
-    #         neighbors[7] = [notVer, rowNum, (colNum - 1), board[notVer][rowNum][colNum - 1]]
-    #     if colNum < len(board[0][0]) - 1:
-    #         neighbors[1] = [verNum, rowNum, (colNum + 1), board[verNum][rowNum][colNum + 1]]
-    #         neighbors[5] = [notVer, rowNum, (colNum + 1), board[notVer][rowNum][colNum + 1]]
-    #     return neighbors
-    #
-    # # unused
-    # def lineOwner(self, rowNum, colNum, isVertical, board):
-    #     if isVertical:
-    #         verNum = 1
-    #     else:
-    #         verNum = 0
-    #     return board[verNum][rowNum][colNum]
-    #
-    # def isTaken(self, rowNum, colNum, isVertical, board):
-    #     if isVertical:
-    #         verNum = 1
-    #     else:
-    #         verNum = 0
-    #     if board[verNum][rowNum][colNum] != "":
-    #         return True
-    #     return False
 
-
-if __name__ == "__main__":
-    game_board = Board(4, 4, "SaucyBoy", "Enemy")
-    game_board.create_board()
-    for box in game_board.box:
-        print("Box:")
-        for edge in box.dots:
-            print(f"Edge: {edge.dot1.row}, {edge.dot1.column} - {edge.dot2.row}, {edge.dot2.column}, Owner: {edge.owner}")
-            print(f"Box Owner: {box.owner}")
-            print()
-
-# print(board_ish.boxes())
+# if __name__ == "__main__":
+#     game_board = Board(4, 4, "SaucyBoy", "Enemy")
+#     game_board.create_board()
+#     for box in game_board.box:
+#         print("Box:")
+#         for edge in box.dots:
+#             print(f"Edge: {edge.dot1.row}, {edge.dot1.column} - {edge.dot2.row}, {edge.dot2.column}, Owner: {edge.owner}")
+#             print(f"Box Owner: {box.owner}")
+#             print()
