@@ -71,6 +71,7 @@ class Board:
         move_file = open("move_file", "r")
         text_move_file = move_file.read()
         move = text_move_file.split()
+        print(move)
         p1 = move[1].split(',')
         p2 = move[2].split(',')
         row1, col1 = int(p1[0]), int(p1[1])

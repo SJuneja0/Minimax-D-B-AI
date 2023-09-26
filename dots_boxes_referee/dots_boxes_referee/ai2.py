@@ -13,10 +13,10 @@ class AI:
     def __init__(self, opponent):
         self.i =0
         self.j = 0
-        self.bd = board.Board(9, 9, "SaucyBoy", opponent)
+        self.bd = board.Board(9, 9, "AI2", opponent)
         self.bd.create_board()
         self.tree = treeNode.treeNode(self.bd, [], None, True)
-        self.name = "SaucyBoy"
+        self.name = "AI2"
         self.opponent = opponent
         self.score = [0, 0]  # index 0 is SaucyBoy and index 1 is the opponent
         self.coms = communicator.communicator(self.name)
@@ -71,7 +71,7 @@ class AI:
         print("GAME IS OVER")
         self.score_board()
         self.score_board()
-        print("Saucy boy scored ", self.score[0], " points and the opponent scored ", self.score[1], " points")
+        print("AI2 scored ", self.score[0], " points and the opponent scored ", self.score[1], " points")
         return 1
 
     # Input: Array of the current board-state and the time limit for the AI
@@ -303,5 +303,5 @@ class AI:
 
 # Testing
 # if __name__ == "__main__":
-program = AI("opp")
+program = AI("SaucyBoy")
 program.main()
