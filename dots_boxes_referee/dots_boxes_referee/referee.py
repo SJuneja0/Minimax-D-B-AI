@@ -31,15 +31,12 @@ def clean():
         re.compile("end_game"),
         re.compile("first_four_moves")
     ]
-
-    loc = os.path.abspath('referee.py')[0:-len('referee.py')] # finds absolute path to parent directory of referee.py
+    loc = os.path.abspath('referee.py')[0:-len('referee.py')]
     files = [f for f in listdir(loc) if isfile(join(loc, f))]
     for file in files:
         for pattern in patterns:
             if pattern.match(file):
                 os.remove(file)
-
-
 
 def main():
     """
@@ -61,7 +58,6 @@ def main():
         p3 = p1
         p1 = p2
         p2 = p3
-    print(5)
     # Clean any pre-existing files
     clean()
 
