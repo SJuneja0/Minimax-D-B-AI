@@ -10,7 +10,9 @@ class treeNode:
     # Output:
     # Purpose: Finds a path from this node to the root node
     def construct_path(self, path):
-        while self.came_from is not None: # While this node is not the root node
+        if self.came_from is not None: # While this node is not the root node
             path.append(self) # Add it to the path discovered
             self.came_from.construct_path(path) # And repeat this process with the parent
+        if self.came_from is None:
+            path.append(self)
         return path # When the root node is reached, return the path to the root node

@@ -11,6 +11,7 @@ import copy
 class AI:
 
     def __init__(self, opponent):
+        self.i =0
         self.bd = board.Board(9, 9, "SaucyBoy", opponent)
         self.bd.create_board()
         self.tree = treeNode.treeNode(self.bd, [], None, True)
@@ -69,7 +70,7 @@ class AI:
     # Input: Array of the current board-state and the time limit for the AI
     # Output: Null
     # Purpose: Decides the optimal move and publishes it to the referee, this is the main function
-    def decide_move(self, current_board, time_limit=10):
+    def decide_move(self, current_board, time_limit=15):
         start_timer = time.perf_counter()
         best_move = None
         root_node = treeNode.treeNode(current_board, [], None, True)
@@ -85,9 +86,9 @@ class AI:
 
     def separate_move(self, new_board):
         for i in range(len(new_board.edges)):
-            if not new_board.edges[i].equals(self.bd.edges[i]):
+            if not new_board.edges[i].owner == self.bd.edges[i].owner:
                 return new_board.edges[i]
-        pass
+        return -1
 
     # Input: Two tuples (representing the points for a potential move)
     # Input: Array of the current board-state
@@ -104,6 +105,7 @@ class AI:
     # Output: Array of possible valid board states
     # Purpose: Given a board state, this finds all children states (next possible moves)
     def generate_possible_moves(self, curr_board, name):
+        print(type(curr_board))
         valid_child_boards = []
         for line in curr_board.edges:
             if line.owner is None:
@@ -172,14 +174,12 @@ class AI:
             # generate the child boards, make a tree node for each, and append it to the curr_node's children
             children_boards = self.generate_possible_moves(curr_tree_Node.board, name)
             empty_child_node = treeNode.treeNode(None, [], curr_tree_Node, False)
-            best_children = []
-            children_values = []
             for child_board in children_boards:
                 child_node = copy.copy(empty_child_node)
                 child_node.children = [].copy()
                 child_node.board = child_board
 
-                if len(best_children) <= 3:
+                if len(curr_tree_Node.children) <= 2:
                     curr_tree_Node.children.append(child_node)
                 else:
                     self.h_sort(curr_tree_Node.children)
@@ -188,7 +188,13 @@ class AI:
                     if curr_child_value > worst_child_value:
                         curr_tree_Node.children[-1] = child_node
 
-            curr_tree_Node.children = self.generate_possible_moves(curr_tree_Node, name)
+            curr_tree_Node_children_boards = self.generate_possible_moves(curr_tree_Node.board, name)
+            empty_child_node = treeNode.treeNode(None, [], curr_tree_Node, False)
+            for child_board in curr_tree_Node_children_boards:
+                child_node = copy.copy(empty_child_node)
+                child_node.children = [].copy()
+                child_node.board = child_board
+                curr_tree_Node.children.append(child_node)
 
         # for each child of this node, generate the children's children (recursively),
         # all editing the original treeNode
@@ -210,21 +216,17 @@ class AI:
                  self.utility_fcn(children[1].board, self.name, self.opponent),
                  self.utility_fcn(children[2].board, self.name, self.opponent)]
 
-        index = value.index(value.min())
+        index = value.index(min(value))
         holder = children[-1]
-        lowest = children[index]
-        if not holder.equals(lowest):             #possible equals problem
-            children[-1] = children[index]
-            children[index] = holder
-            del value[index]
+        children[-1] = children[index]
+        children[index] = holder
+        del value[index]
 
-        index = value.index(value.min())
+        index = value.index(min(value))
         holder = children[-2]
-        lowest = children[index]
-        if not holder.equals(lowest):
-            children[-2] = children[index]
-            children[index] = holder
-            del value[index]
+        children[-2] = children[index]
+        children[index] = holder
+        del value[index]
 
     """Heuristics"""
 
