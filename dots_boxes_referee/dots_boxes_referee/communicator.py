@@ -54,10 +54,11 @@ class communicator:
     def report_invalid_move(self, invalid_move, curr_board):
         dot1 = invalid_move.dot1
         dot2 = invalid_move.dot2
-        if invalid_move not in curr_board.edges:
-            print("The move ", dot1.row, ", ", dot1.column, " to", dot2.row, ", ", dot2.column, " is out of range")
-        else:
-            print("The move ", dot1.row, ", ", dot1.column, " to", dot2.row, ", ", dot2.column, " is already taken")
+        for edge in curr_board.edges:
+            if invalid_move.equals(edge):
+                print("The move ", dot1.row, ",", dot1.column, " to", dot2.row, ",", dot2.column, " is out of range")
+            else:
+                print("The move ", dot1.row, ",", dot1.column, " to", dot2.row, ",", dot2.column, " is already taken")
 
 
 """TEST CODE"""

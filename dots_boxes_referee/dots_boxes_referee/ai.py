@@ -36,10 +36,12 @@ class AI:
 
         # TODO: adjust for if opponents or we get a point/take another turn
         isWeWin = True
-        print(self.bd.is_game_over())
+        # print(self.bd.is_game_over())
         while not self.bd.is_game_over():  # while the game is not over
+            self.i = self.i + 1
+            print(self.i)
             print("RUNNING CORE LOOP")
-            print(self.coms.is_our_turn())
+            # print(self.coms.is_our_turn())
             if self.coms.is_our_turn():  # check to see if it's our turn
                 # start core gameplay loop
 
@@ -64,13 +66,14 @@ class AI:
                     self.bd.update_board()  # update's the internal board with our move
         # DO GAME TERMINATION HERE
         print("GAME IS OVER")
+        self.score_board()
         print("Saucy boy scored ", self.score[0], " points and the opponent scored ", self.score[1], " points")
         return 1
 
     # Input: Array of the current board-state and the time limit for the AI
     # Output: Null
     # Purpose: Decides the optimal move and publishes it to the referee, this is the main function
-    def decide_move(self, current_board, time_limit=15):
+    def decide_move(self, current_board, time_limit=1):
         start_timer = time.perf_counter()
         best_move = None
         root_node = treeNode.treeNode(current_board, [], None, True)
@@ -105,7 +108,6 @@ class AI:
     # Output: Array of possible valid board states
     # Purpose: Given a board state, this finds all children states (next possible moves)
     def generate_possible_moves(self, curr_board, name):
-        print(type(curr_board))
         valid_child_boards = []
         for line in curr_board.edges:
             if line.owner is None:
@@ -268,6 +270,19 @@ class AI:
     def evaluation_fcn(self, curr_board, player_name, opponent_name):
         return self.utility_fcn(curr_board, player_name, opponent_name)
 
+    def score_board(self):
+        ai_score = 0
+        opponent_score = 0
+
+        # Count the number of completed boxes for each player.
+        for box in self.bd.box:
+            if box.owner == self.name:
+                ai_score += 1
+            elif box.owner == self.opponent:
+                opponent_score += 1
+
+        self.score[0] = ai_score
+        self.score[1] = opponent_score
     def doesOppGiveFalseMove(self):
         # read the move file check to see if the components are "opponent name 0,0 0,0"
         move_file = open("move_file", "r")

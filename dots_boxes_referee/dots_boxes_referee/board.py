@@ -58,8 +58,8 @@ class Board:
         self.opponent = opponent
         self.completed_boxes = []
 
-    def valid_move(self, edge):
-        if edge in self.edges and edge.owner.equals(None):
+    def valid_move(self, curr_edge):
+        if self.find_edge_in_board(curr_edge) != -1 and curr_edge.owner == None:
             return True
         else:
             return False
@@ -79,9 +79,8 @@ class Board:
         i = self.find_edge_in_board(curr_edge)  # i = index
         if i == -1:
             return curr_edge
-        edge = self.edges[i]
-        if curr_edge in self.edges and edge.owner.equals(
-                None):  # TODO: curr_edges may not be in self.edges, even if they are the same
+        # edge = self.edges[i]
+        if self.valid_move(curr_edge):
             pass
         else:
             return curr_edge
@@ -100,7 +99,7 @@ class Board:
                 count = 0
                 this_box = False
                 for i in range(4):
-                    edge = box.dots[i]
+                    edge = box.edges[i]
                     if edge.owner == owner:
                         count += 1
                     if edge.owner is not None:
