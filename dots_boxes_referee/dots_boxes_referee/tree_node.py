@@ -6,8 +6,8 @@ class treeNode:
         self.came_from = came_from  # treeNode
         self.isRootNode = isRootNode  # is root node
 
-    # Input:
-    # Output:
+    # Input: []
+    # Output: A full array
     # Purpose: Finds a path from this node to the root node
     def construct_path(self, path):
         if self.came_from is not None: # While this node is not the root node
