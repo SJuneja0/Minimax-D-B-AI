@@ -28,7 +28,7 @@ class AI:
             pass
         move_file = open("./move_file", "r")
         content = move_file.read()
-        if move_file.read() == "":
+        if content == "" or content == "\n":
             best_move_board = self.decide_move(self.bd)  # returns a board that is one level below curr_board
             best_move = self.separate_move(best_move_board)  # finds the move to get to that best_board
             self.coms.write_move(best_move.dot1, best_move.dot2)  # writes that move
@@ -42,6 +42,7 @@ class AI:
             print(self.i)
             print("RUNNING CORE LOOP")
             # print(self.coms.is_our_turn())
+            time.sleep(0.3)
             if self.coms.is_our_turn():  # check to see if it's our turn
                 # start core gameplay loop
 

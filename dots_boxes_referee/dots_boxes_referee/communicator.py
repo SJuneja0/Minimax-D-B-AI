@@ -1,13 +1,11 @@
 """IMPORTS"""
 import os
-import board
 
 
 class communicator:
 
     def __init__(self, name):
         self.name = name
-
     # Input: Two dots that make the edge/line
     # Output: Null
     # Purpose: Writes a new move_file to send the move to the referee
@@ -55,10 +53,14 @@ class communicator:
         dot1 = invalid_move.dot1
         dot2 = invalid_move.dot2
         for edge in curr_board.edges:
-            if invalid_move.equals(edge):
+            if not invalid_move.equals(edge):
                 print("The move ", dot1.row, ",", dot1.column, " to", dot2.row, ",", dot2.column, " is out of range")
+                break
             else:
                 print("The move ", dot1.row, ",", dot1.column, " to", dot2.row, ",", dot2.column, " is already taken")
+                break
+
+
 
 
 """TEST CODE"""
