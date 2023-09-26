@@ -1,3 +1,9 @@
+"""
+THIS IS THE SECOND AI,
+IT'S CODE MAY NOT BE UP-TO-DATE WITHOUT CURRENT CODE
+AND IT IS NOT COMMENTED AS IT IS ONLY FOR TESTING PURPOSES
+"""
+
 import tree_node as treeNode
 import communicator
 import board
@@ -51,6 +57,7 @@ class AI:
                 isValid = self.bd.update_board()
                 new_box_taken = len(self.bd.completed_boxes)  # num of boxes after new move is added
                 if curr_boxes_taken != new_box_taken:
+                    print("AI2: WRITING FALSE MOVE")
                     self.coms.write_false_move()
 
                 # else if an invalid move was given, report it and end the game

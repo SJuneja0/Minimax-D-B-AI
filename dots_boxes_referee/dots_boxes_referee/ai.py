@@ -11,15 +11,15 @@ import copy
 class AI:
 
     def __init__(self, opponent):
-        self.i =0
-        self.j = 0
-        self.bd = board.Board(9, 9, "SaucyBoy", opponent)
+        self.i = 0  # counter for testing and debugging
+        self.j = 0  # counter for testing and debugging
+        self.bd = board.Board(9, 9, "SaucyBoy", opponent)  # initialize internal current board state
         self.bd.create_board()
-        self.tree = treeNode.treeNode(self.bd, [], None, True)
+        self.tree = treeNode.treeNode(self.bd, [], None, True)  # initialize search tree with the root node
         self.name = "SaucyBoy"
         self.opponent = opponent
         self.score = [0, 0]  # index 0 is SaucyBoy and index 1 is the opponent
-        self.coms = communicator.communicator(self.name)
+        self.coms = communicator.communicator(self.name)  # initialize the communicator
         print("INITIALIZED")
         #  TODO: May need a flag to see if we get an extra turn
 
@@ -51,6 +51,7 @@ class AI:
                 isValid = self.bd.update_board()
                 new_box_taken = len(self.bd.completed_boxes)  # num of boxes after new move is added
                 if curr_boxes_taken != new_box_taken:
+                    print("SAUCY: WRITING FALSE MOVE")
                     self.coms.write_false_move()
 
                 # else if an invalid move was given, report it and end the game
@@ -74,38 +75,33 @@ class AI:
         print("Saucy boy scored ", self.score[0], " points and the opponent scored ", self.score[1], " points")
         return 1
 
-    # Input: Array of the current board-state and the time limit for the AI
-    # Output: Null
-    # Purpose: Decides the optimal move and publishes it to the referee, this is the main function
-    def decide_move(self, current_board, time_limit=5):
+    # Input: Board, time_limit
+    # Output: Board
+    # Purpose: Decides the optimal move and publish it's board-state (one node deeper than current root)
+    def decide_move(self, current_board, time_limit=8):
         start_timer = time.perf_counter()
         best_move = None
         root_node = treeNode.treeNode(current_board, [], None, True)
         depth = 0
+
+        # While the timer has time, keep expanding the search_tree with iterative deepening
         while start_timer + time_limit >= time.perf_counter():
             depth += 2
-            searchTree = self.generate_search_tree(root_node, depth, True)
-            best_final_node = self.mini_max(searchTree, True, -9999, 9999, None)
-            best_path = best_final_node.construct_path([])
-            best_move = best_path[-2]
+            searchTree = self.generate_search_tree(root_node, depth, True)  # makes search tree
+            best_final_node = self.mini_max(searchTree, True, -9999, 9999, None)  # look in stree for best end state
+            best_path = best_final_node.construct_path([])  # finds path to get to best end state
+            best_move = best_path[-2]  # finds next move to take to get to best end state
 
         return best_move.board
 
+    # Input: Board
+    # Output: -1 for error (no move found), else returns edge
+    # Purpose: Takes in board state that is one deeper than current board state and finds the edge to take to get there
     def separate_move(self, new_board):
         for i in range(len(new_board.edges)):
             if not new_board.edges[i].owner == self.bd.edges[i].owner:
                 return new_board.edges[i]
         return -1
-
-    # Input: Two tuples (representing the points for a potential move)
-    # Input: Array of the current board-state
-    # Output: Boolean (true if the move suggested is valid)
-    # Purpose: To check if a given move is valid
-    def valid_move(self, edge):
-        if self.bd.find_edge_in_board(edge) != -1 & edge.owner.equals(None):
-            return True
-        else:
-            return False
 
     # Input: Board
     # Input: Name to write to the spot
@@ -125,8 +121,8 @@ class AI:
 
     """Search Method"""
 
-    # Input: Array of the current board-state
-    # Output: A path of the optimal move
+    # Input: Node to analyze, if this node is maximizing, alpha, beta, the current best end position
+    # Output: The best bottom (deepest level) treeNode
     # Purpose: To decide the optimal move given a search tree
     def mini_max(self, tree_Node, isMaximizing, alpha, beta, bestFinalPosition):
         # if the game would be over or if this is the bottom node so far (i.e., this position has no children)
@@ -166,7 +162,7 @@ class AI:
                     break
             return minValue
 
-    # Input: A initial tree node that's children are empty
+    # Input: A empty root tree node, the depth to generate down, bool
     # Output: A tree node with children who have children down to a specified depth
     # Purpose: Fills a starting tree node with children down to a specified depth
     def generate_search_tree(self, curr_tree_Node, depth, isOurTurn):
@@ -185,6 +181,8 @@ class AI:
                 child_node.children = [].copy()
                 child_node.board = child_board
 
+                # Bar Search Portion
+                # Lets in the first three children, then it sorts the rest and only allows the best 3 to stay
                 if len(curr_tree_Node.children) <= 2:
                     curr_tree_Node.children.append(child_node)
                 else:
@@ -194,6 +192,7 @@ class AI:
                     if curr_child_value > worst_child_value:
                         curr_tree_Node.children[-1] = child_node
 
+            # Generates the children of the children
             curr_tree_Node_children_boards = self.generate_possible_moves(curr_tree_Node.board, name)
             empty_child_node = treeNode.treeNode(None, [], curr_tree_Node, False)
             for child_board in curr_tree_Node_children_boards:
@@ -217,6 +216,9 @@ class AI:
         if curr_tree_Node.isRootNode:
             return curr_tree_Node
 
+    # Input: [treeNodes]
+    # Output: None
+    # Purpose: Sorts a list of treeNodes by their heuristic value
     def h_sort(self, children):
         value = [self.utility_fcn(children[0].board, self.name, self.opponent),
                  self.utility_fcn(children[1].board, self.name, self.opponent),
@@ -236,9 +238,9 @@ class AI:
 
     """Heuristics"""
 
-    # Input: Array of a suggested board state
+    # Input: Array of a suggested board state, our name, opp name
     # Output: Int of how good that board state is for our AI
-    # Purpose: To tell how good a theoretical move is
+    # Purpose: To tell how good a theoretical board state is
     def utility_fcn(self, curr_board, player_name, opponent_name):
         ai_score = 0
         opponent_score = 0
@@ -274,6 +276,9 @@ class AI:
     def evaluation_fcn(self, curr_board, player_name, opponent_name):
         return self.utility_fcn(curr_board, player_name, opponent_name)
 
+    # Input: None
+    # Output: None
+    # Purpose: Tells the score when called
     def score_board(self):
         ai_score = 0
         opponent_score = 0
@@ -287,18 +292,30 @@ class AI:
 
         self.score[0] = ai_score
         self.score[1] = opponent_score
-    def doesOppGiveFalseMove(self):
-        # read the move file check to see if the components are "opponent name 0,0 0,0"
-        move_file = open("move_file", "r")
-        text_move_file = move_file.read()
-        move = text_move_file.split()
-        dot1 = board.Dot(int(move[1][0]), int(move[1][1]))
-        dot2 = board.Dot(int(move[2][0]), int(move[2][1]))
-        emptyDot = board.Dot(0, 0)
-        if move[0].equals(self.opponent) and dot1.equals(emptyDot) and dot2.equals(emptyDot):
-            return True
-        else:
-            return False
+
+
+    # def doesOppGiveFalseMove(self):
+    #     # read the move file check to see if the components are "opponent name 0,0 0,0"
+    #     move_file = open("move_file", "r")
+    #     text_move_file = move_file.read()
+    #     move = text_move_file.split()
+    #     dot1 = board.Dot(int(move[1][0]), int(move[1][1]))
+    #     dot2 = board.Dot(int(move[2][0]), int(move[2][1]))
+    #     emptyDot = board.Dot(0, 0)
+    #     if move[0].equals(self.opponent) and dot1.equals(emptyDot) and dot2.equals(emptyDot):
+    #         return True
+    #     else:
+    #         return False
+
+    # # Input: Two tuples (representing the points for a potential move)
+    # # Input: Array of the current board-state
+    # # Output: Boolean (true if the move suggested is valid)
+    # # Purpose: To check if a given move is valid
+    # def valid_move(self, edge):
+    #     if self.bd.find_edge_in_board(edge) != -1 & edge.owner.equals(None):
+    #         return True
+    #     else:
+    #         return False
 
 
 # Testing
