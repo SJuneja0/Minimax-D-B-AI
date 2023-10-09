@@ -50,6 +50,9 @@ class AI:
                 curr_boxes_taken = len(self.bd.completed_boxes)  # num of boxes before new move is added
                 isValid = self.bd.update_board()
                 new_box_taken = len(self.bd.completed_boxes)  # num of boxes after new move is added
+                print("----------Current Boxes and New Boxes------------")
+                print(curr_boxes_taken)
+                print(new_box_taken)
                 print("TYPE of ISVALID: " + str(type(isValid)))
                 if curr_boxes_taken != new_box_taken:
                     print("OPP: WRITING FALSE MOVE")
@@ -57,6 +60,7 @@ class AI:
 
                 # else if an invalid move was given, report it and end the game
                 elif type(isValid) == board.Edge:
+                    print("OPP: REPORTING FALSE MOVE")
                     self.coms.report_invalid_move(isValid, self.bd)
                     break
 
@@ -79,7 +83,7 @@ class AI:
     # Input: Board, time_limit
     # Output: Board
     # Purpose: Decides the optimal move and publish it's board-state (one node deeper than current root)
-    def decide_move(self, current_board, time_limit=8):
+    def decide_move(self, current_board, time_limit=4):
         start_timer = time.perf_counter()
         best_move = None
         root_node = treeNode.treeNode(current_board, [], None, True)
