@@ -36,7 +36,7 @@ class AI:
             self.bd.update_board()  # update's the internal board with our move
 
         # TODO: adjust for if opponents or we get a point/take another turn
-        isWeWin = True
+        # isWeWin = True
         # print(self.bd.is_game_over())
         while not self.bd.is_game_over():  # while the game is not over
             # self.i = self.i + 1
@@ -50,6 +50,7 @@ class AI:
                 curr_boxes_taken = len(self.bd.completed_boxes)  # num of boxes before new move is added
                 isValid = self.bd.update_board()
                 new_box_taken = len(self.bd.completed_boxes)  # num of boxes after new move is added
+                print("TYPE of ISVALID: " + str(type(isValid)))
                 if curr_boxes_taken != new_box_taken:
                     print("SAUCY: WRITING FALSE MOVE")
                     self.coms.write_false_move()
@@ -292,7 +293,6 @@ class AI:
 
         self.score[0] = ai_score
         self.score[1] = opponent_score
-
 
     # def doesOppGiveFalseMove(self):
     #     # read the move file check to see if the components are "opponent name 0,0 0,0"

@@ -25,7 +25,6 @@ class Edge:
         return edge.dot1.equals(dot1) and edge.dot2.equals(dot2) or edge.dot1.equals(dot2) and edge.dot2.equals(dot1)
 
 
-
 # Input: the 4 dots in an array
 # Output: creates a box with the 4 lines
 # Purpose: to go through the boxes based on edges
@@ -42,6 +41,7 @@ class Box:
             else:
                 return False
         return count == 4 and self.owner == box.owner
+
 
 # Input: row, column, owner, and opponent
 # Output: reads from the board
@@ -76,10 +76,13 @@ class Board:
         p2 = move[2].split(',')
         row1, col1 = int(p1[0]), int(p1[1])
         row2, col2 = int(p2[0]), int(p2[1])
+        emptyDot = Dot(0, 0)
         dot1 = Dot(row1, col1)
         dot2 = Dot(row2, col2)
         curr_edge = Edge(dot1, dot2)
         i = self.find_edge_in_board(curr_edge)  # i = index
+        if dot1 == emptyDot and dot2 == emptyDot:
+            return True
         if i == -1:
             return curr_edge
         # edge = self.edges[i]
@@ -167,7 +170,8 @@ class Board:
                 return index
             index += 1
 
-        return -1              # if nothing is found returns -1
+        return -1  # if nothing is found returns -1
+
     def is_game_over(self):
         return not any(edge.owner is None for edge in self.edges)
 
