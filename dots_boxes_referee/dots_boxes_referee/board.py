@@ -71,7 +71,9 @@ class Board:
         move_file = open("move_file", "r")
         text_move_file = move_file.read()
         move = text_move_file.split()
+        move_file.close()
         print(move)
+        owner = move[0]
         p1 = move[1].split(',')
         p2 = move[2].split(',')
         row1, col1 = int(p1[0]), int(p1[1])
@@ -80,6 +82,7 @@ class Board:
         dot1 = Dot(row1, col1)
         dot2 = Dot(row2, col2)
         curr_edge = Edge(dot1, dot2)
+
         i = self.find_edge_in_board(curr_edge)  # i = index
         if dot1 == emptyDot and dot2 == emptyDot:
             return True
@@ -90,8 +93,6 @@ class Board:
             pass
         else:
             return curr_edge
-
-        owner = move[0]
 
         # Update edge ownership based on the move
         for edge in self.edges:
@@ -114,6 +115,7 @@ class Board:
                             this_box = True
                 if count == 4 and this_box:
                     box.owner = owner
+                    self.completed_boxes.append(box)
         return True
 
     # Input: Null

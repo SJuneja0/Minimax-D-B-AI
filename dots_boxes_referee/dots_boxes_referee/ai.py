@@ -46,14 +46,16 @@ class AI:
             if self.coms.is_our_turn():  # check to see if it's our turn
                 # start core gameplay loop
 
-                # if there is a new box that was taken by the opp, write a false move
-                curr_boxes_taken = len(self.bd.completed_boxes)  # num of boxes before new move is added
-                isValid = self.bd.update_board()
-                new_box_taken = len(self.bd.completed_boxes)  # num of boxes after new move is added
-                print("----------Current Boxes and New Boxes------------")
-                print(curr_boxes_taken)
-                print(new_box_taken)
-                print("TYPE of ISVALID: " + str(type(isValid)))
+                if not self.coms.pass_turn():
+
+                    # if there is a new box that was taken by the opp, write a false move
+                    curr_boxes_taken = len(self.bd.completed_boxes)  # num of boxes before new move is added
+                    isValid = self.bd.update_board()
+                    new_box_taken = len(self.bd.completed_boxes)  # num of boxes after new move is added
+                    print("----------Current Boxes and New Boxes------------")
+                    print(curr_boxes_taken)
+                    print(new_box_taken)
+                    print("TYPE of ISVALID: " + str(type(isValid)))
                 if curr_boxes_taken != new_box_taken:
                     print("SAUCY: WRITING FALSE MOVE")
                     self.coms.write_false_move()
