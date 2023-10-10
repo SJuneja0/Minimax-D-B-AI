@@ -70,6 +70,7 @@ class Board:
     def update_board(self):  # TODO: check to make sure it can handle false moves
         move_file = open("move_file", "r")
         text_move_file = move_file.read()
+        move_file.close()
         move = text_move_file.split()
         print(move)
         p1 = move[1].split(',')
@@ -82,13 +83,16 @@ class Board:
         curr_edge = Edge(dot1, dot2)
         i = self.find_edge_in_board(curr_edge)  # i = index
         if dot1 == emptyDot and dot2 == emptyDot:
+            print("CCCCCCCCCCCCC")
             return True
         if i == -1:
+            print("HHHHHHHHHHHHHHHHHHHHH")
             return curr_edge
         # edge = self.edges[i]
         if self.valid_move(curr_edge):
             pass
         else:
+            print("AAAAAAAAAAAAAAAAAA")
             return curr_edge
 
         owner = move[0]

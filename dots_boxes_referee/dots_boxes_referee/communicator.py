@@ -26,15 +26,12 @@ class communicator:
     # Output: None
     # Purpose: Write a 'false move' to the ref to signal that we know it's not our turn
     def write_false_move(self):
-        if self.is_our_turn():
-            print("WRITE_FALSE_MOVE: Our Turn")
-            move_file = open("move_file", "r+")
-            move_file.truncate()
-            move_file = open("move_file", "a")
-            move_file.write(self.name + " 0,0 0,0")
-            move_file.close()
-        else:
-            print("WRITE_FALSE_MOVE: Not our Turn")
+        print("WRITE_FALSE_MOVE: Our Turn")
+        move_file = open("move_file", "r+")
+        move_file.truncate()
+        move_file = open("move_file", "a")
+        move_file.write(self.name + " 0,0 0,0")
+        move_file.close()
 
     """FUNCTIONS"""
 
@@ -44,7 +41,14 @@ class communicator:
     def is_our_turn(self):
         turn_path = "./" + self.name + ".go"
         move_path = "./move_file"
-        return os.path.isfile(turn_path) and os.path.isfile(move_path)
+        pass_path = "./" + self.name + ".pass"
+        return os.path.isfile(turn_path) and os.path.isfile(move_path) or os.path.isfile(pass_path)
+
+    def is_pass_file(self):
+        pass_path = "./" + self.name + ".pass"
+        if os.path.isfile(pass_path):
+            print(self.name + "PASS SEEN, SENDING FALSE MOVE NEXT")
+        return os.path.isfile(pass_path)
 
     # Input: A edge that describes the invalid move and the current board
     # Output: None
@@ -59,6 +63,8 @@ class communicator:
             else:
                 print("The move ", dot1.row, ",", dot1.column, " to", dot2.row, ",", dot2.column, " is already taken")
                 break
+
+
 
 
 

@@ -20,7 +20,7 @@ class AI:
         self.opponent = opponent
         self.score = [0, 0]  # index 0 is SaucyBoy and index 1 is the opponent
         self.coms = communicator.communicator(self.name)  # initialize the communicator
-        print("INITIALIZED")
+        print(self.name + " INITIALIZED")
         #  TODO: May need a flag to see if we get an extra turn
 
     def main(self):
@@ -54,13 +54,17 @@ class AI:
                 print(curr_boxes_taken)
                 print(new_box_taken)
                 print("TYPE of ISVALID: " + str(type(isValid)))
-                if curr_boxes_taken != new_box_taken:
-                    print("SAUCY: WRITING FALSE MOVE")
+                if type(isValid) == board.Edge:
+                    if isValid.dot1.row == 0 and isValid.dot1.column == 0 and isValid.dot2.row == 0 and isValid.dot2.column == 0:
+                        print("DEBUGGING: Caught stupid error")
+                        isValid = True
+                if self.coms.is_pass_file():
+                    print(self.name + ": WRITING FALSE MOVE")
                     self.coms.write_false_move()
 
                 # else if an invalid move was given, report it and end the game
                 elif type(isValid) == board.Edge:
-                    print("SAUCY: REPORTING FALSE MOVE")
+                    print(self.name + ": REPORTING INVALID MOVE")
                     self.coms.report_invalid_move(isValid, self.bd)
                     break
 
@@ -77,7 +81,7 @@ class AI:
         print("GAME IS OVER")
         self.score_board()
         self.score_board()
-        print("Saucy boy scored ", self.score[0], " points and the opponent scored ", self.score[1], " points")
+        print(self.name + " scored " + str(self.score[0]) + " points and " + self.opponent + " scored " + str(self.score[1]) + " points")
         return 1
 
     # Input: Board, time_limit
