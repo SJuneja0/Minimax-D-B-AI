@@ -1,2 +1,6 @@
-Saucyboy.py
-python Saucyboy.py
+use our initial submission for the tournament
+
+In one terminal go to right cd : Documents\GitHub\Minimax-D-B-AI\dots_boxes_referee\dots_boxes_referee>
+Run: python SaucyBoy.py
+After running that move to another terminal and same cd
+and run: python referee.py SaucyBoy <Player 2 name> --time_limit 10
