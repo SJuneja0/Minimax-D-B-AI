@@ -50,6 +50,10 @@ class communicator:
             print(self.name + "PASS SEEN, SENDING FALSE MOVE NEXT")
         return os.path.isfile(pass_path)
 
+    def pass_turn(self):
+        turn_path = "./" + self.name + ".pass"
+        # move_path = "./move_file"
+        return os.path.isfile(turn_path)  # and os.path.isfile(move_path)
     # Input: A edge that describes the invalid move and the current board
     # Output: None
     # Purpose: to tell the Ref that there is an invalid move and why

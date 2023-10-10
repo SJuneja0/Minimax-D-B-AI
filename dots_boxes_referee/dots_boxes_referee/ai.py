@@ -45,7 +45,6 @@ class AI:
             time.sleep(0.3)
             if self.coms.is_our_turn():  # check to see if it's our turn
                 # start core gameplay loop
-
                 # if there is a new box that was taken by the opp, write a false move
                 curr_boxes_taken = len(self.bd.completed_boxes)  # num of boxes before new move is added
                 isValid = self.bd.update_board()

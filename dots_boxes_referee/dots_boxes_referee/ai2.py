@@ -43,7 +43,7 @@ class AI:
             # print("RUNNING CORE LOOP: " + str(self.i))
             # print(self.coms.is_our_turn())
             time.sleep(0.3)
-            if self.coms.is_our_turn():  # check to see if it's our turn
+            if self.coms.is_our_turn() or self.coms.pass_turn():  # check to see if it's our turn
                 # start core gameplay loop
 
                 # if there is a new box that was taken by the opp, write a false move
